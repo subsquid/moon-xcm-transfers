@@ -18,15 +18,15 @@ serve:
 
 
 migrate:
-	@npx squid-typeorm-migration apply
+	@npx squid-mikroorm-migration apply
 
 
 codegen:
-	@npx squid-typeorm-codegen
+	@npx squid-mikroorm-codegen
 
 
 typegen:
-	@npx squid-substrate-typegen typegen.json
+	@sh ./scripts/typegen.sh
 
 
 up:

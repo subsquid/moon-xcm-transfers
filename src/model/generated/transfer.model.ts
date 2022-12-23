@@ -1,6 +1,8 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, Index as Index_, ManyToOne as ManyToOne_} from "typeorm"
-import * as marshal from "./marshal"
-import {Account} from "./account.model"
+import {Entity as Entity_, Property as Property_, PrimaryKey as PrimaryKey_, Index as Index_, Enum as Enum_} from "@mikro-orm/core"
+import {types} from "./support"
+import {TransferLocation, fromJsonTransferLocation} from "./_transferLocation"
+import {TransferAsset, fromJsonTransferAsset} from "./_transferAsset"
+import {TransferType} from "./_transferType"
 
 @Entity_()
 export class Transfer {
@@ -8,33 +10,33 @@ export class Transfer {
     Object.assign(this, props)
   }
 
-  @PrimaryColumn_()
+  @PrimaryKey_({type: types.String})
   id!: string
 
-  @Index_()
-  @Column_("int4", {nullable: false})
-  blockNumber!: number
-
-  @Index_()
-  @Column_("timestamp with time zone", {nullable: false})
+  @Property_({type: types.DateTime, nullable: false})
   timestamp!: Date
 
   @Index_()
-  @Column_("text", {nullable: true})
-  extrinsicHash!: string | undefined | null
+  @Property_({type: types.Int, nullable: false})
+  blockNumber!: number
 
   @Index_()
-  @ManyToOne_(() => Account, {nullable: true})
-  from!: Account
+  @Property_({type: types.String, nullable: false})
+  extrinsicHash!: string
+
+  @Property_({type: types.JSONobj(fromJsonTransferLocation), nullable: true})
+  to!: TransferLocation | undefined | null
+
+  @Property_({type: types.JSONobj(fromJsonTransferLocation), nullable: false})
+  from!: TransferLocation
+
+  @Property_({type: types.JSONobj(fromJsonTransferAsset), nullable: false})
+  asset!: TransferAsset
 
   @Index_()
-  @ManyToOne_(() => Account, {nullable: true})
-  to!: Account
+  @Property_({type: types.Boolean, nullable: false})
+  success!: boolean
 
-  @Index_()
-  @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
-  amount!: bigint
-
-  @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
-  fee!: bigint
+  @Enum_({type: types.String, items: () => TransferType, nullable: false})
+  type!: TransferType
 }

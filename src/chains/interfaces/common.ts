@@ -1,0 +1,1 @@
+export type NativeTokensMap = Map<string, { symbol: string; decimals: number }>
