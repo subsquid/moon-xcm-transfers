@@ -15,25 +15,35 @@ const processor = new SubstrateBatchProcessor()
   .setDataSource({
     archive: lookupArchive('moonbeam', { release: 'FireSquid' })
   })
-  .addCall('XTokens.transfer', {
+  .addEvent('XTokens.Transferred', {
     data: {
-      call: true
+      event: true
     }
-  } as const)
-  .addCall('XTokens.transfer_multicurrencies', {
+  })
+  .addEvent('XTokens.TransferredMultiCurrencies', {
     data: {
-      call: true
+      event: true
     }
-  } as const);
+  });
+// .addCall('XTokens.transfer', {
+//   data: {
+//     call: true
+//   }
+// } as const)
+// .addCall('XTokens.transfer_multicurrencies', {
+//   data: {
+//     call: true
+//   }
+// } as const);
 
 export type Item = BatchProcessorItem<typeof processor>;
 export type Ctx = BatchContext<Store, Item>;
-export type CallItem = BatchProcessorCallItem<typeof processor>
+export type CallItem = BatchProcessorCallItem<typeof processor>;
 export type Block = BatchBlock<Item>;
 
 import { getChain } from './chains';
 const { api } = getChain();
 
 processor.run(new MikroormDatabase(), async (ctx) => {
-  await api.batch.batchHandler(ctx)
+  await api.batch.batchHandler(ctx);
 });

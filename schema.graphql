@@ -1,72 +1,26 @@
 type Account @entity {
+  "Account address"
   id: ID!
-  transfers: [AccountTransfer!] @derivedFrom(field: "account")
-  lastUpdateBlock: Int!
+  transfers: [Transfer!] @derivedFrom(field: "from")
 }
 
-enum TransferDirection {
-  From
-  To
-}
-
-interface Action {
-  timestamp: DateTime
-  blockNumber: Int
-  extrinsicHash: String
-}
-
-interface CanFail {
-  success: Boolean
-}
-
-type Transfer implements Action & CanFail @entity {
+type Transfer @entity {
   id: ID!
-  timestamp: DateTime!
   blockNumber: Int! @index
-  extrinsicHash: String! @index
-  to: TransferLocation
-  from: TransferLocation!
-  asset: TransferAsset!
-  success: Boolean! @index
-  type: TransferType!
+  timestamp: DateTime! @index
+  extrinsicHash: String @index
+  from: Account!
+  to: XcmDestination!
+  assets: [XcmToken]!
+  fee: BigInt!
 }
 
-union TransferLocation = TransferLocationAccount | TransferLocationEvm | TransferLocationXcm
-
-type TransferLocationAccount {
+type XcmDestination {
+  paraId: Int
   id: String!
 }
 
-type TransferLocationEvm {
-  address: String!
-}
-
-union TransferAsset = TransferAssetToken | TransferAssetMultiToken
-
-enum TransferType {
-  Native
-  Currency
-  Xcm
-}
-
-type TransferAssetToken {
-  symbol: String!
+type XcmToken {
   amount: BigInt!
-}
-
-type TransferAssetMultiToken {
-  tokens: [TransferAssetToken]
-}
-
-type TransferLocationXcm {
-  id: String
-  paraId: Int
-}
-
-# entity for linking account and transfer
-type AccountTransfer @entity {
-  id: ID!
-  transfer: Transfer
-  account: Account!
-  direction: TransferDirection
+  symbol: String!
 }

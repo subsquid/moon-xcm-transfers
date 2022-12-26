@@ -15,7 +15,7 @@ export interface AssetMetadataStorage {
 
 export type TokenSymbol = { __kind: string };
 
-export type AssetId =
+export type CurrencyId =
   | {
       __kind: 'ForeignAsset';
       value: bigint;
@@ -29,7 +29,7 @@ export type AssetId =
       value: bigint;
     };
 
-export type Asset =
+export type Currency =
   | {
       type: 'SelfReserve';
     }
@@ -52,3 +52,11 @@ export type TransferCallData = {
   dest: any;
   destWeight: bigint;
 };
+
+export type TransferredEventData = {
+  sender: Uint8Array;
+  currencyId: any;
+  amount: bigint;
+  dest: any;
+};
+

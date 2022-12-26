@@ -1,5 +1,10 @@
 import type {Result, Option} from './support'
 
+export interface CancelledScheduledRequest {
+    whenExecutable: number
+    action: DelegationAction
+}
+
 export type Call = Call_System | Call_ParachainSystem | Call_Timestamp | Call_Balances | Call_ParachainStaking | Call_AuthorInherent | Call_AuthorFilter | Call_AuthorMapping | Call_MoonbeamOrbiters | Call_Utility | Call_Proxy | Call_MaintenanceMode | Call_Identity | Call_EVM | Call_Ethereum | Call_BaseFee | Call_Scheduler | Call_Democracy | Call_CouncilCollective | Call_TechCommitteeCollective | Call_Treasury | Call_CrowdloanRewards | Call_DmpQueue | Call_PolkadotXcm | Call_Assets | Call_AssetManager | Call_XTokens | Call_XcmTransactor | Call_LocalAssets
 
 export interface Call_System {
@@ -264,6 +269,18 @@ export interface EventRecord {
     phase: Phase
     event: Event
     topics: Uint8Array[]
+}
+
+export type DelegationAction = DelegationAction_Revoke | DelegationAction_Decrease
+
+export interface DelegationAction_Revoke {
+    __kind: 'Revoke'
+    value: bigint
+}
+
+export interface DelegationAction_Decrease {
+    __kind: 'Decrease'
+    value: bigint
 }
 
 /**
@@ -4561,18 +4578,6 @@ export interface CurrentOrbiter {
     removed: boolean
 }
 
-export type DelegationAction = DelegationAction_Revoke | DelegationAction_Decrease
-
-export interface DelegationAction_Revoke {
-    __kind: 'Revoke'
-    value: bigint
-}
-
-export interface DelegationAction_Decrease {
-    __kind: 'Decrease'
-    value: bigint
-}
-
 export interface Bond {
     owner: Uint8Array
     amount: bigint
@@ -8549,11 +8554,6 @@ export interface BalanceStatus_Free {
 
 export interface BalanceStatus_Reserved {
     __kind: 'Reserved'
-}
-
-export interface CancelledScheduledRequest {
-    whenExecutable: number
-    action: DelegationAction
 }
 
 export type DelegatorAdded = DelegatorAdded_AddedToTop | DelegatorAdded_AddedToBottom

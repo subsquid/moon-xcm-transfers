@@ -28,3 +28,24 @@ export type AssetCommon = {
   type: any;
   value?: any;
 };
+
+
+export type Token = { symbol: string; decimals: number }
+
+
+export interface XcmTransferData {
+  id: string;
+  blockNumber: number;
+  timestamp: Date;
+  extrinsicHash?: string;
+  from: string;
+  to: {
+    paraId?: number;
+    id: string;
+  };
+  assets: {
+    symbol: string;
+    amount: bigint;
+  }[];
+  fee?: bigint;
+}

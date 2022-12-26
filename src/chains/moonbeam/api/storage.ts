@@ -6,17 +6,15 @@ import {
 } from '../types/generated/support';
 import { UnknownVersionError } from '../../../utils/errors';
 import { AssetsMetadataStorage } from '../types/generated/storage';
-import { Ctx } from '../../../processor';
 
 import { AssetMetadata, AssetMetadataStorageData } from '../../types/xToken';
-import { Asset, AssetId } from '../types/custom/types';
+import { Currency, CurrencyId } from '../types/custom/types';
 
 async function getAssetMetadataStorageData(
-  ctx: Ctx,
-  block: Block,
+  ctx: BlockContext,
   key: any
 ): Promise<AssetMetadataStorageData | undefined> {
-  const storage = new AssetsMetadataStorage(ctx, block);
+  const storage = new AssetsMetadataStorage(ctx);
   if (!storage.isExists) return undefined;
 
   if (storage.isV1201) {
@@ -27,11 +25,10 @@ async function getAssetMetadataStorageData(
 }
 
 export async function getAssetMetadatasXToken(
-  ctx: Ctx,
-  block: Block,
-  asset: Asset
+  ctx: BlockContext,
+  asset: Currency
 ): Promise<AssetMetadata | undefined> {
-  const key: AssetId | {} = (() => {
+  const key: CurrencyId | {} = (() => {
     switch (asset.type) {
       case 'ForeignAsset':
         return {
@@ -53,7 +50,7 @@ export async function getAssetMetadatasXToken(
     }
   })();
 
-  const data = await getAssetMetadataStorageData(ctx, block, key);
+  const data = await getAssetMetadataStorageData(ctx, key);
   if (!data) return undefined;
 
   return {

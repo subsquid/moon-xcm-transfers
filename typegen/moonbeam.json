@@ -1,7 +1,10 @@
 {
   "outDir": "../src/chains/moonbeam/types/generated",
   "specVersions": "https://moonbeam.archive.subsquid.io/graphql",
-  "events": [],
+  "events": true,
   "storage": true,
-  "calls": true
+  "calls": true,
+  "constants": [
+    "XTokens.SelfLocation"
+  ]
 }

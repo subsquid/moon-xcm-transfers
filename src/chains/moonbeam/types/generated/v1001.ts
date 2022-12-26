@@ -1,5 +1,37 @@
 import type {Result, Option} from './support'
 
+export type AccountVote = AccountVote_Standard | AccountVote_Split
+
+export interface AccountVote_Standard {
+    __kind: 'Standard'
+    vote: number
+    balance: bigint
+}
+
+export interface AccountVote_Split {
+    __kind: 'Split'
+    aye: bigint
+    nay: bigint
+}
+
+export interface DelegationRequest {
+    collator: Uint8Array
+    amount: bigint
+    whenExecutable: number
+    action: DelegationChange
+}
+
+export type DelegatorAdded = DelegatorAdded_AddedToTop | DelegatorAdded_AddedToBottom
+
+export interface DelegatorAdded_AddedToTop {
+    __kind: 'AddedToTop'
+    newTotal: bigint
+}
+
+export interface DelegatorAdded_AddedToBottom {
+    __kind: 'AddedToBottom'
+}
+
 export type Call = Call_System | Call_ParachainSystem | Call_Timestamp | Call_Balances | Call_ParachainStaking | Call_AuthorInherent | Call_AuthorFilter | Call_AuthorMapping | Call_Utility | Call_Proxy | Call_MaintenanceMode | Call_Identity | Call_Sudo | Call_EVM | Call_Ethereum | Call_Scheduler | Call_Democracy | Call_CouncilCollective | Call_TechCommitteeCollective | Call_Treasury | Call_CrowdloanRewards
 
 export interface Call_System {
@@ -190,6 +222,16 @@ export interface EventRecord {
     phase: Phase
     event: Event
     topics: Uint8Array[]
+}
+
+export type DelegationChange = DelegationChange_Revoke | DelegationChange_Decrease
+
+export interface DelegationChange_Revoke {
+    __kind: 'Revoke'
+}
+
+export interface DelegationChange_Decrease {
+    __kind: 'Decrease'
 }
 
 /**
@@ -3170,20 +3212,6 @@ export interface LegacyTransaction {
     signature: TransactionSignature
 }
 
-export type AccountVote = AccountVote_Standard | AccountVote_Split
-
-export interface AccountVote_Standard {
-    __kind: 'Standard'
-    vote: number
-    balance: bigint
-}
-
-export interface AccountVote_Split {
-    __kind: 'Split'
-    aye: bigint
-    nay: bigint
-}
-
 export type Conviction = Conviction_None | Conviction_Locked1x | Conviction_Locked2x | Conviction_Locked3x | Conviction_Locked4x | Conviction_Locked5x | Conviction_Locked6x
 
 export interface Conviction_None {
@@ -3229,13 +3257,6 @@ export interface MultiSignature_Sr25519 {
 export interface MultiSignature_Ecdsa {
     __kind: 'Ecdsa'
     value: Uint8Array
-}
-
-export interface DelegationRequest {
-    collator: Uint8Array
-    amount: bigint
-    whenExecutable: number
-    action: DelegationChange
 }
 
 export type RawOrigin = RawOrigin_Root | RawOrigin_Signed | RawOrigin_None
@@ -4642,16 +4663,6 @@ export interface TransactionSignature {
     s: Uint8Array
 }
 
-export type DelegationChange = DelegationChange_Revoke | DelegationChange_Decrease
-
-export interface DelegationChange_Revoke {
-    __kind: 'Revoke'
-}
-
-export interface DelegationChange_Decrease {
-    __kind: 'Decrease'
-}
-
 export interface DispatchInfo {
     weight: bigint
     class: DispatchClass
@@ -4704,17 +4715,6 @@ export interface BalanceStatus_Free {
 
 export interface BalanceStatus_Reserved {
     __kind: 'Reserved'
-}
-
-export type DelegatorAdded = DelegatorAdded_AddedToTop | DelegatorAdded_AddedToBottom
-
-export interface DelegatorAdded_AddedToTop {
-    __kind: 'AddedToTop'
-    newTotal: bigint
-}
-
-export interface DelegatorAdded_AddedToBottom {
-    __kind: 'AddedToBottom'
 }
 
 export type Type_45 = Type_45_Ok | Type_45_Err

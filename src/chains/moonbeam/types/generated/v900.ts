@@ -1,5 +1,153 @@
 import type {Result, Option} from './support'
 
+export type BalanceStatus = BalanceStatus_Free | BalanceStatus_Reserved
+
+export interface BalanceStatus_Free {
+    __kind: 'Free'
+}
+
+export interface BalanceStatus_Reserved {
+    __kind: 'Reserved'
+}
+
+export type Type_43 = Type_43_Ok | Type_43_Err
+
+export interface Type_43_Ok {
+    __kind: 'Ok'
+}
+
+export interface Type_43_Err {
+    __kind: 'Err'
+    value: DispatchError
+}
+
+export type VoteThreshold = VoteThreshold_SuperMajorityApprove | VoteThreshold_SuperMajorityAgainst | VoteThreshold_SimpleMajority
+
+export interface VoteThreshold_SuperMajorityApprove {
+    __kind: 'SuperMajorityApprove'
+}
+
+export interface VoteThreshold_SuperMajorityAgainst {
+    __kind: 'SuperMajorityAgainst'
+}
+
+export interface VoteThreshold_SimpleMajority {
+    __kind: 'SimpleMajority'
+}
+
+export interface Log {
+    address: Uint8Array
+    topics: Uint8Array[]
+    data: Uint8Array
+}
+
+export type ExitReason = ExitReason_Succeed | ExitReason_Error | ExitReason_Revert | ExitReason_Fatal
+
+export interface ExitReason_Succeed {
+    __kind: 'Succeed'
+    value: ExitSucceed
+}
+
+export interface ExitReason_Error {
+    __kind: 'Error'
+    value: ExitError
+}
+
+export interface ExitReason_Revert {
+    __kind: 'Revert'
+    value: ExitRevert
+}
+
+export interface ExitReason_Fatal {
+    __kind: 'Fatal'
+    value: ExitFatal
+}
+
+export type NominatorAdded = NominatorAdded_AddedToTop | NominatorAdded_AddedToBottom
+
+export interface NominatorAdded_AddedToTop {
+    __kind: 'AddedToTop'
+    newTotal: bigint
+}
+
+export interface NominatorAdded_AddedToBottom {
+    __kind: 'AddedToBottom'
+}
+
+export type ProxyType = ProxyType_Any | ProxyType_NonTransfer | ProxyType_Governance | ProxyType_Staking | ProxyType_CancelProxy | ProxyType_Balances | ProxyType_AuthorMapping
+
+export interface ProxyType_Any {
+    __kind: 'Any'
+}
+
+export interface ProxyType_NonTransfer {
+    __kind: 'NonTransfer'
+}
+
+export interface ProxyType_Governance {
+    __kind: 'Governance'
+}
+
+export interface ProxyType_Staking {
+    __kind: 'Staking'
+}
+
+export interface ProxyType_CancelProxy {
+    __kind: 'CancelProxy'
+}
+
+export interface ProxyType_Balances {
+    __kind: 'Balances'
+}
+
+export interface ProxyType_AuthorMapping {
+    __kind: 'AuthorMapping'
+}
+
+export type DispatchError = DispatchError_Other | DispatchError_CannotLookup | DispatchError_BadOrigin | DispatchError_Module | DispatchError_ConsumerRemaining | DispatchError_NoProviders | DispatchError_Token | DispatchError_Arithmetic
+
+export interface DispatchError_Other {
+    __kind: 'Other'
+}
+
+export interface DispatchError_CannotLookup {
+    __kind: 'CannotLookup'
+}
+
+export interface DispatchError_BadOrigin {
+    __kind: 'BadOrigin'
+}
+
+export interface DispatchError_Module {
+    __kind: 'Module'
+    index: number
+    error: number
+}
+
+export interface DispatchError_ConsumerRemaining {
+    __kind: 'ConsumerRemaining'
+}
+
+export interface DispatchError_NoProviders {
+    __kind: 'NoProviders'
+}
+
+export interface DispatchError_Token {
+    __kind: 'Token'
+    value: TokenError
+}
+
+export interface DispatchError_Arithmetic {
+    __kind: 'Arithmetic'
+    value: ArithmeticError
+}
+
+export interface DispatchInfo {
+    weight: bigint
+    class: DispatchClass
+    paysFee: Pays
+}
+
 export type Call = Call_System | Call_ParachainSystem | Call_Timestamp | Call_Balances | Call_ParachainStaking | Call_AuthorInherent | Call_AuthorFilter | Call_AuthorMapping | Call_Utility | Call_Proxy | Call_MaintenanceMode | Call_Identity | Call_Sudo | Call_EVM | Call_Ethereum | Call_Scheduler | Call_Democracy | Call_CouncilCollective | Call_TechCommitteeCollective | Call_Treasury | Call_CrowdloanRewards
 
 export interface Call_System {
@@ -431,36 +579,6 @@ export interface ParachainInherentData {
     horizontalMessages: [number, InboundHrmpMessage[]][]
 }
 
-export type ProxyType = ProxyType_Any | ProxyType_NonTransfer | ProxyType_Governance | ProxyType_Staking | ProxyType_CancelProxy | ProxyType_Balances | ProxyType_AuthorMapping
-
-export interface ProxyType_Any {
-    __kind: 'Any'
-}
-
-export interface ProxyType_NonTransfer {
-    __kind: 'NonTransfer'
-}
-
-export interface ProxyType_Governance {
-    __kind: 'Governance'
-}
-
-export interface ProxyType_Staking {
-    __kind: 'Staking'
-}
-
-export interface ProxyType_CancelProxy {
-    __kind: 'CancelProxy'
-}
-
-export interface ProxyType_Balances {
-    __kind: 'Balances'
-}
-
-export interface ProxyType_AuthorMapping {
-    __kind: 'AuthorMapping'
-}
-
 export interface ChangesTrieConfiguration {
     digestInterval: number
     digestLevels: number
@@ -511,20 +629,6 @@ export interface RewardInfo {
     totalReward: bigint
     claimedReward: bigint
     contributedRelayAddresses: Uint8Array[]
-}
-
-export type VoteThreshold = VoteThreshold_SuperMajorityApprove | VoteThreshold_SuperMajorityAgainst | VoteThreshold_SimpleMajority
-
-export interface VoteThreshold_SuperMajorityApprove {
-    __kind: 'SuperMajorityApprove'
-}
-
-export interface VoteThreshold_SuperMajorityAgainst {
-    __kind: 'SuperMajorityAgainst'
-}
-
-export interface VoteThreshold_SimpleMajority {
-    __kind: 'SimpleMajority'
 }
 
 export type PreimageStatus = PreimageStatus_Missing | PreimageStatus_Available
@@ -790,6 +894,173 @@ export interface Proposal {
     value: bigint
     beneficiary: Uint8Array
     bond: bigint
+}
+
+export type ExitSucceed = ExitSucceed_Stopped | ExitSucceed_Returned | ExitSucceed_Suicided
+
+export interface ExitSucceed_Stopped {
+    __kind: 'Stopped'
+}
+
+export interface ExitSucceed_Returned {
+    __kind: 'Returned'
+}
+
+export interface ExitSucceed_Suicided {
+    __kind: 'Suicided'
+}
+
+export type ExitError = ExitError_StackUnderflow | ExitError_StackOverflow | ExitError_InvalidJump | ExitError_InvalidRange | ExitError_DesignatedInvalid | ExitError_CallTooDeep | ExitError_CreateCollision | ExitError_CreateContractLimit | ExitError_OutOfOffset | ExitError_OutOfGas | ExitError_OutOfFund | ExitError_PCUnderflow | ExitError_CreateEmpty | ExitError_Other
+
+export interface ExitError_StackUnderflow {
+    __kind: 'StackUnderflow'
+}
+
+export interface ExitError_StackOverflow {
+    __kind: 'StackOverflow'
+}
+
+export interface ExitError_InvalidJump {
+    __kind: 'InvalidJump'
+}
+
+export interface ExitError_InvalidRange {
+    __kind: 'InvalidRange'
+}
+
+export interface ExitError_DesignatedInvalid {
+    __kind: 'DesignatedInvalid'
+}
+
+export interface ExitError_CallTooDeep {
+    __kind: 'CallTooDeep'
+}
+
+export interface ExitError_CreateCollision {
+    __kind: 'CreateCollision'
+}
+
+export interface ExitError_CreateContractLimit {
+    __kind: 'CreateContractLimit'
+}
+
+export interface ExitError_OutOfOffset {
+    __kind: 'OutOfOffset'
+}
+
+export interface ExitError_OutOfGas {
+    __kind: 'OutOfGas'
+}
+
+export interface ExitError_OutOfFund {
+    __kind: 'OutOfFund'
+}
+
+export interface ExitError_PCUnderflow {
+    __kind: 'PCUnderflow'
+}
+
+export interface ExitError_CreateEmpty {
+    __kind: 'CreateEmpty'
+}
+
+export interface ExitError_Other {
+    __kind: 'Other'
+    value: string
+}
+
+export type ExitRevert = ExitRevert_Reverted
+
+export interface ExitRevert_Reverted {
+    __kind: 'Reverted'
+}
+
+export type ExitFatal = ExitFatal_NotSupported | ExitFatal_UnhandledInterrupt | ExitFatal_CallErrorAsFatal | ExitFatal_Other
+
+export interface ExitFatal_NotSupported {
+    __kind: 'NotSupported'
+}
+
+export interface ExitFatal_UnhandledInterrupt {
+    __kind: 'UnhandledInterrupt'
+}
+
+export interface ExitFatal_CallErrorAsFatal {
+    __kind: 'CallErrorAsFatal'
+    value: ExitError
+}
+
+export interface ExitFatal_Other {
+    __kind: 'Other'
+    value: string
+}
+
+export type TokenError = TokenError_NoFunds | TokenError_WouldDie | TokenError_BelowMinimum | TokenError_CannotCreate | TokenError_UnknownAsset | TokenError_Frozen | TokenError_Unsupported
+
+export interface TokenError_NoFunds {
+    __kind: 'NoFunds'
+}
+
+export interface TokenError_WouldDie {
+    __kind: 'WouldDie'
+}
+
+export interface TokenError_BelowMinimum {
+    __kind: 'BelowMinimum'
+}
+
+export interface TokenError_CannotCreate {
+    __kind: 'CannotCreate'
+}
+
+export interface TokenError_UnknownAsset {
+    __kind: 'UnknownAsset'
+}
+
+export interface TokenError_Frozen {
+    __kind: 'Frozen'
+}
+
+export interface TokenError_Unsupported {
+    __kind: 'Unsupported'
+}
+
+export type ArithmeticError = ArithmeticError_Underflow | ArithmeticError_Overflow | ArithmeticError_DivisionByZero
+
+export interface ArithmeticError_Underflow {
+    __kind: 'Underflow'
+}
+
+export interface ArithmeticError_Overflow {
+    __kind: 'Overflow'
+}
+
+export interface ArithmeticError_DivisionByZero {
+    __kind: 'DivisionByZero'
+}
+
+export type DispatchClass = DispatchClass_Normal | DispatchClass_Operational | DispatchClass_Mandatory
+
+export interface DispatchClass_Normal {
+    __kind: 'Normal'
+}
+
+export interface DispatchClass_Operational {
+    __kind: 'Operational'
+}
+
+export interface DispatchClass_Mandatory {
+    __kind: 'Mandatory'
+}
+
+export type Pays = Pays_Yes | Pays_No
+
+export interface Pays_Yes {
+    __kind: 'Yes'
+}
+
+export interface Pays_No {
+    __kind: 'No'
 }
 
 /**
@@ -3339,12 +3610,6 @@ export interface Header {
     nonce: Uint8Array
 }
 
-export interface Log {
-    address: Uint8Array
-    topics: Uint8Array[]
-    data: Uint8Array
-}
-
 export type CollatorStatus = CollatorStatus_Active | CollatorStatus_Idle | CollatorStatus_Leaving
 
 export interface CollatorStatus_Active {
@@ -4813,269 +5078,4 @@ export interface CrowdloanRewardsEvent_InitializedAlreadyInitializedAccount {
 export interface CrowdloanRewardsEvent_InitializedAccountWithNotEnoughContribution {
     __kind: 'InitializedAccountWithNotEnoughContribution'
     value: [Uint8Array, (Uint8Array | undefined), bigint]
-}
-
-export interface DispatchInfo {
-    weight: bigint
-    class: DispatchClass
-    paysFee: Pays
-}
-
-export type DispatchError = DispatchError_Other | DispatchError_CannotLookup | DispatchError_BadOrigin | DispatchError_Module | DispatchError_ConsumerRemaining | DispatchError_NoProviders | DispatchError_Token | DispatchError_Arithmetic
-
-export interface DispatchError_Other {
-    __kind: 'Other'
-}
-
-export interface DispatchError_CannotLookup {
-    __kind: 'CannotLookup'
-}
-
-export interface DispatchError_BadOrigin {
-    __kind: 'BadOrigin'
-}
-
-export interface DispatchError_Module {
-    __kind: 'Module'
-    index: number
-    error: number
-}
-
-export interface DispatchError_ConsumerRemaining {
-    __kind: 'ConsumerRemaining'
-}
-
-export interface DispatchError_NoProviders {
-    __kind: 'NoProviders'
-}
-
-export interface DispatchError_Token {
-    __kind: 'Token'
-    value: TokenError
-}
-
-export interface DispatchError_Arithmetic {
-    __kind: 'Arithmetic'
-    value: ArithmeticError
-}
-
-export type BalanceStatus = BalanceStatus_Free | BalanceStatus_Reserved
-
-export interface BalanceStatus_Free {
-    __kind: 'Free'
-}
-
-export interface BalanceStatus_Reserved {
-    __kind: 'Reserved'
-}
-
-export type NominatorAdded = NominatorAdded_AddedToTop | NominatorAdded_AddedToBottom
-
-export interface NominatorAdded_AddedToTop {
-    __kind: 'AddedToTop'
-    newTotal: bigint
-}
-
-export interface NominatorAdded_AddedToBottom {
-    __kind: 'AddedToBottom'
-}
-
-export type Type_43 = Type_43_Ok | Type_43_Err
-
-export interface Type_43_Ok {
-    __kind: 'Ok'
-}
-
-export interface Type_43_Err {
-    __kind: 'Err'
-    value: DispatchError
-}
-
-export type ExitReason = ExitReason_Succeed | ExitReason_Error | ExitReason_Revert | ExitReason_Fatal
-
-export interface ExitReason_Succeed {
-    __kind: 'Succeed'
-    value: ExitSucceed
-}
-
-export interface ExitReason_Error {
-    __kind: 'Error'
-    value: ExitError
-}
-
-export interface ExitReason_Revert {
-    __kind: 'Revert'
-    value: ExitRevert
-}
-
-export interface ExitReason_Fatal {
-    __kind: 'Fatal'
-    value: ExitFatal
-}
-
-export type DispatchClass = DispatchClass_Normal | DispatchClass_Operational | DispatchClass_Mandatory
-
-export interface DispatchClass_Normal {
-    __kind: 'Normal'
-}
-
-export interface DispatchClass_Operational {
-    __kind: 'Operational'
-}
-
-export interface DispatchClass_Mandatory {
-    __kind: 'Mandatory'
-}
-
-export type Pays = Pays_Yes | Pays_No
-
-export interface Pays_Yes {
-    __kind: 'Yes'
-}
-
-export interface Pays_No {
-    __kind: 'No'
-}
-
-export type TokenError = TokenError_NoFunds | TokenError_WouldDie | TokenError_BelowMinimum | TokenError_CannotCreate | TokenError_UnknownAsset | TokenError_Frozen | TokenError_Unsupported
-
-export interface TokenError_NoFunds {
-    __kind: 'NoFunds'
-}
-
-export interface TokenError_WouldDie {
-    __kind: 'WouldDie'
-}
-
-export interface TokenError_BelowMinimum {
-    __kind: 'BelowMinimum'
-}
-
-export interface TokenError_CannotCreate {
-    __kind: 'CannotCreate'
-}
-
-export interface TokenError_UnknownAsset {
-    __kind: 'UnknownAsset'
-}
-
-export interface TokenError_Frozen {
-    __kind: 'Frozen'
-}
-
-export interface TokenError_Unsupported {
-    __kind: 'Unsupported'
-}
-
-export type ArithmeticError = ArithmeticError_Underflow | ArithmeticError_Overflow | ArithmeticError_DivisionByZero
-
-export interface ArithmeticError_Underflow {
-    __kind: 'Underflow'
-}
-
-export interface ArithmeticError_Overflow {
-    __kind: 'Overflow'
-}
-
-export interface ArithmeticError_DivisionByZero {
-    __kind: 'DivisionByZero'
-}
-
-export type ExitSucceed = ExitSucceed_Stopped | ExitSucceed_Returned | ExitSucceed_Suicided
-
-export interface ExitSucceed_Stopped {
-    __kind: 'Stopped'
-}
-
-export interface ExitSucceed_Returned {
-    __kind: 'Returned'
-}
-
-export interface ExitSucceed_Suicided {
-    __kind: 'Suicided'
-}
-
-export type ExitError = ExitError_StackUnderflow | ExitError_StackOverflow | ExitError_InvalidJump | ExitError_InvalidRange | ExitError_DesignatedInvalid | ExitError_CallTooDeep | ExitError_CreateCollision | ExitError_CreateContractLimit | ExitError_OutOfOffset | ExitError_OutOfGas | ExitError_OutOfFund | ExitError_PCUnderflow | ExitError_CreateEmpty | ExitError_Other
-
-export interface ExitError_StackUnderflow {
-    __kind: 'StackUnderflow'
-}
-
-export interface ExitError_StackOverflow {
-    __kind: 'StackOverflow'
-}
-
-export interface ExitError_InvalidJump {
-    __kind: 'InvalidJump'
-}
-
-export interface ExitError_InvalidRange {
-    __kind: 'InvalidRange'
-}
-
-export interface ExitError_DesignatedInvalid {
-    __kind: 'DesignatedInvalid'
-}
-
-export interface ExitError_CallTooDeep {
-    __kind: 'CallTooDeep'
-}
-
-export interface ExitError_CreateCollision {
-    __kind: 'CreateCollision'
-}
-
-export interface ExitError_CreateContractLimit {
-    __kind: 'CreateContractLimit'
-}
-
-export interface ExitError_OutOfOffset {
-    __kind: 'OutOfOffset'
-}
-
-export interface ExitError_OutOfGas {
-    __kind: 'OutOfGas'
-}
-
-export interface ExitError_OutOfFund {
-    __kind: 'OutOfFund'
-}
-
-export interface ExitError_PCUnderflow {
-    __kind: 'PCUnderflow'
-}
-
-export interface ExitError_CreateEmpty {
-    __kind: 'CreateEmpty'
-}
-
-export interface ExitError_Other {
-    __kind: 'Other'
-    value: string
-}
-
-export type ExitRevert = ExitRevert_Reverted
-
-export interface ExitRevert_Reverted {
-    __kind: 'Reverted'
-}
-
-export type ExitFatal = ExitFatal_NotSupported | ExitFatal_UnhandledInterrupt | ExitFatal_CallErrorAsFatal | ExitFatal_Other
-
-export interface ExitFatal_NotSupported {
-    __kind: 'NotSupported'
-}
-
-export interface ExitFatal_UnhandledInterrupt {
-    __kind: 'UnhandledInterrupt'
-}
-
-export interface ExitFatal_CallErrorAsFatal {
-    __kind: 'CallErrorAsFatal'
-    value: ExitError
-}
-
-export interface ExitFatal_Other {
-    __kind: 'Other'
-    value: string
 }

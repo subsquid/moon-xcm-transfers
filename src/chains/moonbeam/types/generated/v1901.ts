@@ -1,5 +1,180 @@
 import type {Result, Option} from './support'
 
+export interface Weight {
+    refTime: bigint
+}
+
+export type DelegatorAdded = DelegatorAdded_AddedToTop | DelegatorAdded_AddedToBottom
+
+export interface DelegatorAdded_AddedToTop {
+    __kind: 'AddedToTop'
+    newTotal: bigint
+}
+
+export interface DelegatorAdded_AddedToBottom {
+    __kind: 'AddedToBottom'
+}
+
+export type DispatchError = DispatchError_Other | DispatchError_CannotLookup | DispatchError_BadOrigin | DispatchError_Module | DispatchError_ConsumerRemaining | DispatchError_NoProviders | DispatchError_TooManyConsumers | DispatchError_Token | DispatchError_Arithmetic | DispatchError_Transactional
+
+export interface DispatchError_Other {
+    __kind: 'Other'
+}
+
+export interface DispatchError_CannotLookup {
+    __kind: 'CannotLookup'
+}
+
+export interface DispatchError_BadOrigin {
+    __kind: 'BadOrigin'
+}
+
+export interface DispatchError_Module {
+    __kind: 'Module'
+    value: ModuleError
+}
+
+export interface DispatchError_ConsumerRemaining {
+    __kind: 'ConsumerRemaining'
+}
+
+export interface DispatchError_NoProviders {
+    __kind: 'NoProviders'
+}
+
+export interface DispatchError_TooManyConsumers {
+    __kind: 'TooManyConsumers'
+}
+
+export interface DispatchError_Token {
+    __kind: 'Token'
+    value: TokenError
+}
+
+export interface DispatchError_Arithmetic {
+    __kind: 'Arithmetic'
+    value: ArithmeticError
+}
+
+export interface DispatchError_Transactional {
+    __kind: 'Transactional'
+    value: TransactionalError
+}
+
+export interface DispatchInfo {
+    weight: Weight
+    class: DispatchClass
+    paysFee: Pays
+}
+
+export type V2Error = V2Error_Overflow | V2Error_Unimplemented | V2Error_UntrustedReserveLocation | V2Error_UntrustedTeleportLocation | V2Error_MultiLocationFull | V2Error_MultiLocationNotInvertible | V2Error_BadOrigin | V2Error_InvalidLocation | V2Error_AssetNotFound | V2Error_FailedToTransactAsset | V2Error_NotWithdrawable | V2Error_LocationCannotHold | V2Error_ExceedsMaxMessageSize | V2Error_DestinationUnsupported | V2Error_Transport | V2Error_Unroutable | V2Error_UnknownClaim | V2Error_FailedToDecode | V2Error_MaxWeightInvalid | V2Error_NotHoldingFees | V2Error_TooExpensive | V2Error_Trap | V2Error_UnhandledXcmVersion | V2Error_WeightLimitReached | V2Error_Barrier | V2Error_WeightNotComputable
+
+export interface V2Error_Overflow {
+    __kind: 'Overflow'
+}
+
+export interface V2Error_Unimplemented {
+    __kind: 'Unimplemented'
+}
+
+export interface V2Error_UntrustedReserveLocation {
+    __kind: 'UntrustedReserveLocation'
+}
+
+export interface V2Error_UntrustedTeleportLocation {
+    __kind: 'UntrustedTeleportLocation'
+}
+
+export interface V2Error_MultiLocationFull {
+    __kind: 'MultiLocationFull'
+}
+
+export interface V2Error_MultiLocationNotInvertible {
+    __kind: 'MultiLocationNotInvertible'
+}
+
+export interface V2Error_BadOrigin {
+    __kind: 'BadOrigin'
+}
+
+export interface V2Error_InvalidLocation {
+    __kind: 'InvalidLocation'
+}
+
+export interface V2Error_AssetNotFound {
+    __kind: 'AssetNotFound'
+}
+
+export interface V2Error_FailedToTransactAsset {
+    __kind: 'FailedToTransactAsset'
+}
+
+export interface V2Error_NotWithdrawable {
+    __kind: 'NotWithdrawable'
+}
+
+export interface V2Error_LocationCannotHold {
+    __kind: 'LocationCannotHold'
+}
+
+export interface V2Error_ExceedsMaxMessageSize {
+    __kind: 'ExceedsMaxMessageSize'
+}
+
+export interface V2Error_DestinationUnsupported {
+    __kind: 'DestinationUnsupported'
+}
+
+export interface V2Error_Transport {
+    __kind: 'Transport'
+}
+
+export interface V2Error_Unroutable {
+    __kind: 'Unroutable'
+}
+
+export interface V2Error_UnknownClaim {
+    __kind: 'UnknownClaim'
+}
+
+export interface V2Error_FailedToDecode {
+    __kind: 'FailedToDecode'
+}
+
+export interface V2Error_MaxWeightInvalid {
+    __kind: 'MaxWeightInvalid'
+}
+
+export interface V2Error_NotHoldingFees {
+    __kind: 'NotHoldingFees'
+}
+
+export interface V2Error_TooExpensive {
+    __kind: 'TooExpensive'
+}
+
+export interface V2Error_Trap {
+    __kind: 'Trap'
+    value: bigint
+}
+
+export interface V2Error_UnhandledXcmVersion {
+    __kind: 'UnhandledXcmVersion'
+}
+
+export interface V2Error_WeightLimitReached {
+    __kind: 'WeightLimitReached'
+    value: bigint
+}
+
+export interface V2Error_Barrier {
+    __kind: 'Barrier'
+}
+
+export interface V2Error_WeightNotComputable {
+    __kind: 'WeightNotComputable'
+}
+
 export type Call = Call_System | Call_ParachainSystem | Call_Timestamp | Call_Balances | Call_ParachainStaking | Call_AuthorInherent | Call_AuthorFilter | Call_AuthorMapping | Call_MoonbeamOrbiters | Call_Utility | Call_Proxy | Call_MaintenanceMode | Call_Identity | Call_EVM | Call_Ethereum | Call_BaseFee | Call_Scheduler | Call_Democracy | Call_CouncilCollective | Call_TechCommitteeCollective | Call_TreasuryCouncilCollective | Call_Treasury | Call_CrowdloanRewards | Call_DmpQueue | Call_PolkadotXcm | Call_Assets | Call_AssetManager | Call_XTokens | Call_XcmTransactor | Call_LocalAssets | Call_Randomness
 
 export interface Call_System {
@@ -155,10 +330,6 @@ export interface Call_LocalAssets {
 export interface Call_Randomness {
     __kind: 'Randomness'
     value: RandomnessCall
-}
-
-export interface Weight {
-    refTime: bigint
 }
 
 export type Judgement = Judgement_Unknown | Judgement_FeePaid | Judgement_Reasonable | Judgement_KnownGood | Judgement_OutOfDate | Judgement_LowQuality | Judgement_Erroneous
@@ -339,6 +510,89 @@ export interface QueueConfigData {
     thresholdWeight: Weight
     weightRestrictDecay: Weight
     xcmpMaxIndividualWeight: Weight
+}
+
+export interface ModuleError {
+    index: number
+    error: Uint8Array
+}
+
+export type TokenError = TokenError_NoFunds | TokenError_WouldDie | TokenError_BelowMinimum | TokenError_CannotCreate | TokenError_UnknownAsset | TokenError_Frozen | TokenError_Unsupported
+
+export interface TokenError_NoFunds {
+    __kind: 'NoFunds'
+}
+
+export interface TokenError_WouldDie {
+    __kind: 'WouldDie'
+}
+
+export interface TokenError_BelowMinimum {
+    __kind: 'BelowMinimum'
+}
+
+export interface TokenError_CannotCreate {
+    __kind: 'CannotCreate'
+}
+
+export interface TokenError_UnknownAsset {
+    __kind: 'UnknownAsset'
+}
+
+export interface TokenError_Frozen {
+    __kind: 'Frozen'
+}
+
+export interface TokenError_Unsupported {
+    __kind: 'Unsupported'
+}
+
+export type ArithmeticError = ArithmeticError_Underflow | ArithmeticError_Overflow | ArithmeticError_DivisionByZero
+
+export interface ArithmeticError_Underflow {
+    __kind: 'Underflow'
+}
+
+export interface ArithmeticError_Overflow {
+    __kind: 'Overflow'
+}
+
+export interface ArithmeticError_DivisionByZero {
+    __kind: 'DivisionByZero'
+}
+
+export type TransactionalError = TransactionalError_LimitReached | TransactionalError_NoLayer
+
+export interface TransactionalError_LimitReached {
+    __kind: 'LimitReached'
+}
+
+export interface TransactionalError_NoLayer {
+    __kind: 'NoLayer'
+}
+
+export type DispatchClass = DispatchClass_Normal | DispatchClass_Operational | DispatchClass_Mandatory
+
+export interface DispatchClass_Normal {
+    __kind: 'Normal'
+}
+
+export interface DispatchClass_Operational {
+    __kind: 'Operational'
+}
+
+export interface DispatchClass_Mandatory {
+    __kind: 'Mandatory'
+}
+
+export type Pays = Pays_Yes | Pays_No
+
+export interface Pays_Yes {
+    __kind: 'Yes'
+}
+
+export interface Pays_No {
+    __kind: 'No'
 }
 
 /**
@@ -9539,114 +9793,6 @@ export interface V1Junction_Plurality {
     part: V0BodyPart
 }
 
-export type V2Error = V2Error_Overflow | V2Error_Unimplemented | V2Error_UntrustedReserveLocation | V2Error_UntrustedTeleportLocation | V2Error_MultiLocationFull | V2Error_MultiLocationNotInvertible | V2Error_BadOrigin | V2Error_InvalidLocation | V2Error_AssetNotFound | V2Error_FailedToTransactAsset | V2Error_NotWithdrawable | V2Error_LocationCannotHold | V2Error_ExceedsMaxMessageSize | V2Error_DestinationUnsupported | V2Error_Transport | V2Error_Unroutable | V2Error_UnknownClaim | V2Error_FailedToDecode | V2Error_MaxWeightInvalid | V2Error_NotHoldingFees | V2Error_TooExpensive | V2Error_Trap | V2Error_UnhandledXcmVersion | V2Error_WeightLimitReached | V2Error_Barrier | V2Error_WeightNotComputable
-
-export interface V2Error_Overflow {
-    __kind: 'Overflow'
-}
-
-export interface V2Error_Unimplemented {
-    __kind: 'Unimplemented'
-}
-
-export interface V2Error_UntrustedReserveLocation {
-    __kind: 'UntrustedReserveLocation'
-}
-
-export interface V2Error_UntrustedTeleportLocation {
-    __kind: 'UntrustedTeleportLocation'
-}
-
-export interface V2Error_MultiLocationFull {
-    __kind: 'MultiLocationFull'
-}
-
-export interface V2Error_MultiLocationNotInvertible {
-    __kind: 'MultiLocationNotInvertible'
-}
-
-export interface V2Error_BadOrigin {
-    __kind: 'BadOrigin'
-}
-
-export interface V2Error_InvalidLocation {
-    __kind: 'InvalidLocation'
-}
-
-export interface V2Error_AssetNotFound {
-    __kind: 'AssetNotFound'
-}
-
-export interface V2Error_FailedToTransactAsset {
-    __kind: 'FailedToTransactAsset'
-}
-
-export interface V2Error_NotWithdrawable {
-    __kind: 'NotWithdrawable'
-}
-
-export interface V2Error_LocationCannotHold {
-    __kind: 'LocationCannotHold'
-}
-
-export interface V2Error_ExceedsMaxMessageSize {
-    __kind: 'ExceedsMaxMessageSize'
-}
-
-export interface V2Error_DestinationUnsupported {
-    __kind: 'DestinationUnsupported'
-}
-
-export interface V2Error_Transport {
-    __kind: 'Transport'
-}
-
-export interface V2Error_Unroutable {
-    __kind: 'Unroutable'
-}
-
-export interface V2Error_UnknownClaim {
-    __kind: 'UnknownClaim'
-}
-
-export interface V2Error_FailedToDecode {
-    __kind: 'FailedToDecode'
-}
-
-export interface V2Error_MaxWeightInvalid {
-    __kind: 'MaxWeightInvalid'
-}
-
-export interface V2Error_NotHoldingFees {
-    __kind: 'NotHoldingFees'
-}
-
-export interface V2Error_TooExpensive {
-    __kind: 'TooExpensive'
-}
-
-export interface V2Error_Trap {
-    __kind: 'Trap'
-    value: bigint
-}
-
-export interface V2Error_UnhandledXcmVersion {
-    __kind: 'UnhandledXcmVersion'
-}
-
-export interface V2Error_WeightLimitReached {
-    __kind: 'WeightLimitReached'
-    value: bigint
-}
-
-export interface V2Error_Barrier {
-    __kind: 'Barrier'
-}
-
-export interface V2Error_WeightNotComputable {
-    __kind: 'WeightNotComputable'
-}
-
 export type V1WildMultiAsset = V1WildMultiAsset_All | V1WildMultiAsset_AllOf
 
 export interface V1WildMultiAsset_All {
@@ -9657,58 +9803,6 @@ export interface V1WildMultiAsset_AllOf {
     __kind: 'AllOf'
     id: V1AssetId
     fun: V1WildFungibility
-}
-
-export interface DispatchInfo {
-    weight: Weight
-    class: DispatchClass
-    paysFee: Pays
-}
-
-export type DispatchError = DispatchError_Other | DispatchError_CannotLookup | DispatchError_BadOrigin | DispatchError_Module | DispatchError_ConsumerRemaining | DispatchError_NoProviders | DispatchError_TooManyConsumers | DispatchError_Token | DispatchError_Arithmetic | DispatchError_Transactional
-
-export interface DispatchError_Other {
-    __kind: 'Other'
-}
-
-export interface DispatchError_CannotLookup {
-    __kind: 'CannotLookup'
-}
-
-export interface DispatchError_BadOrigin {
-    __kind: 'BadOrigin'
-}
-
-export interface DispatchError_Module {
-    __kind: 'Module'
-    value: ModuleError
-}
-
-export interface DispatchError_ConsumerRemaining {
-    __kind: 'ConsumerRemaining'
-}
-
-export interface DispatchError_NoProviders {
-    __kind: 'NoProviders'
-}
-
-export interface DispatchError_TooManyConsumers {
-    __kind: 'TooManyConsumers'
-}
-
-export interface DispatchError_Token {
-    __kind: 'Token'
-    value: TokenError
-}
-
-export interface DispatchError_Arithmetic {
-    __kind: 'Arithmetic'
-    value: ArithmeticError
-}
-
-export interface DispatchError_Transactional {
-    __kind: 'Transactional'
-    value: TransactionalError
 }
 
 export type BalanceStatus = BalanceStatus_Free | BalanceStatus_Reserved
@@ -9724,17 +9818,6 @@ export interface BalanceStatus_Reserved {
 export interface CancelledScheduledRequest {
     whenExecutable: number
     action: DelegationAction
-}
-
-export type DelegatorAdded = DelegatorAdded_AddedToTop | DelegatorAdded_AddedToBottom
-
-export interface DelegatorAdded_AddedToTop {
-    __kind: 'AddedToTop'
-    newTotal: bigint
-}
-
-export interface DelegatorAdded_AddedToBottom {
-    __kind: 'AddedToBottom'
 }
 
 export type Type_49 = Type_49_Ok | Type_49_Err
@@ -9933,89 +10016,6 @@ export interface V1WildFungibility_Fungible {
 
 export interface V1WildFungibility_NonFungible {
     __kind: 'NonFungible'
-}
-
-export type DispatchClass = DispatchClass_Normal | DispatchClass_Operational | DispatchClass_Mandatory
-
-export interface DispatchClass_Normal {
-    __kind: 'Normal'
-}
-
-export interface DispatchClass_Operational {
-    __kind: 'Operational'
-}
-
-export interface DispatchClass_Mandatory {
-    __kind: 'Mandatory'
-}
-
-export type Pays = Pays_Yes | Pays_No
-
-export interface Pays_Yes {
-    __kind: 'Yes'
-}
-
-export interface Pays_No {
-    __kind: 'No'
-}
-
-export interface ModuleError {
-    index: number
-    error: Uint8Array
-}
-
-export type TokenError = TokenError_NoFunds | TokenError_WouldDie | TokenError_BelowMinimum | TokenError_CannotCreate | TokenError_UnknownAsset | TokenError_Frozen | TokenError_Unsupported
-
-export interface TokenError_NoFunds {
-    __kind: 'NoFunds'
-}
-
-export interface TokenError_WouldDie {
-    __kind: 'WouldDie'
-}
-
-export interface TokenError_BelowMinimum {
-    __kind: 'BelowMinimum'
-}
-
-export interface TokenError_CannotCreate {
-    __kind: 'CannotCreate'
-}
-
-export interface TokenError_UnknownAsset {
-    __kind: 'UnknownAsset'
-}
-
-export interface TokenError_Frozen {
-    __kind: 'Frozen'
-}
-
-export interface TokenError_Unsupported {
-    __kind: 'Unsupported'
-}
-
-export type ArithmeticError = ArithmeticError_Underflow | ArithmeticError_Overflow | ArithmeticError_DivisionByZero
-
-export interface ArithmeticError_Underflow {
-    __kind: 'Underflow'
-}
-
-export interface ArithmeticError_Overflow {
-    __kind: 'Overflow'
-}
-
-export interface ArithmeticError_DivisionByZero {
-    __kind: 'DivisionByZero'
-}
-
-export type TransactionalError = TransactionalError_LimitReached | TransactionalError_NoLayer
-
-export interface TransactionalError_LimitReached {
-    __kind: 'LimitReached'
-}
-
-export interface TransactionalError_NoLayer {
-    __kind: 'NoLayer'
 }
 
 export type DelegationAction = DelegationAction_Revoke | DelegationAction_Decrease

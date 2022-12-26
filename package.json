@@ -17,10 +17,10 @@
     "@subsquid/graphql-server": "3.2.4",
     "@subsquid/ss58": "0.1.2",
     "@subsquid/substrate-processor": "2.1.0",
-    "@subsquid/mikroorm-config": "https://gitpkg.now.sh/belopash/squid-mikroorm-store/mikroorm-config?master",
-    "@subsquid/mikroorm-migration": "https://gitpkg.now.sh/belopash/squid-mikroorm-store/mikroorm-migration?master",
-    "@subsquid/mikroorm-store": "https://gitpkg.now.sh/belopash/squid-mikroorm-store/mikroorm-store?master",
-    "@subsquid/mikroorm-codegen": "https://gitpkg.now.sh/belopash/squid-mikroorm-store/mikroorm-codegen?master",
+    "@subsquid/mikroorm-config": "https://gitpkg.now.sh/belopash/squid-mikroorm-store/mikroorm-config",
+    "@subsquid/mikroorm-migration": "https://gitpkg.now.sh/belopash/squid-mikroorm-store/mikroorm-migration",
+    "@subsquid/mikroorm-store": "https://gitpkg.now.sh/belopash/squid-mikroorm-store/mikroorm-store",
+    "@subsquid/mikroorm-codegen": "https://gitpkg.now.sh/belopash/squid-mikroorm-store/mikroorm-codegen",
     "dotenv": "^10.0.0",
     "pg": "8.8.0",
     "typeorm": "0.3.9"
@@ -29,6 +29,7 @@
     "@subsquid/substrate-metadata-explorer": "1.0.9",
     "@subsquid/substrate-typegen": "2.0.0",
     "@types/node": "16.11.56",
-    "typescript": "4.8.2"
+    "typescript": "4.8.2",
+    "prettier": "^2.6.2"
   }
 }

@@ -13,6 +13,7 @@ import { CallItem, Ctx } from '../../../processor';
 import { getChain } from '../../../chains';
 const { getApiDecorated } = getChain();
 import { BlockHeader } from '../../../utils/types';
+import { XcmTransferData } from '../../../chains/types/xToken';
 
 // import * as v1019 from '../../../types/generated/v1019';
 // import * as v2001 from '../../../types/generated/v2001';
@@ -79,11 +80,7 @@ import { BlockHeader } from '../../../utils/types';
 //   return ctx._chain.decodeCall(ctx.call);
 // }
 
-export async function handleTransfer(
-  ctx: Ctx,
-  block: BlockHeader,
-  call: CallItem
-) {
+export async function handleTransfers(ctx: Ctx, transfers: XcmTransferData[]) {
   const api = getApiDecorated('moonbeam');
 
   // @ts-ignore

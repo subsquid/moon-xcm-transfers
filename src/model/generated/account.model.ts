@@ -7,10 +7,10 @@ export class Account {
     Object.assign(this, props)
   }
 
-  @PrimaryKey_({type: types.String})
+  /**
+   * Account address
+   */
+  @PrimaryKey_()
   id!: string
 
-
-  @Property_({type: types.Int, nullable: false})
-  lastUpdateBlock!: number
 }
