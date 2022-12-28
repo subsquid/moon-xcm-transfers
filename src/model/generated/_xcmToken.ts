@@ -1,41 +1,38 @@
 import assert from "assert"
-import {types} from "./support"
+import * as marshal from "./marshal"
 
 export class XcmToken {
-  private _amount!: bigint | undefined | null
-  private _symbol!: string | undefined | null
+    private _amount!: bigint | undefined | null
+    private _symbol!: string | undefined | null
 
-  constructor(props?: Partial<Omit<XcmToken, 'toJSON'>>) {
-    Object.assign(this, props)
-  }
-
-  get amount(): bigint | undefined | null {
-    return this._amount
-  }
-
-  set amount(value: bigint | undefined | null) {
-    this._amount = value
-  }
-
-  get symbol(): string | undefined | null {
-    return this._symbol
-  }
-
-  set symbol(value: string | undefined | null) {
-    this._symbol = value
-  }
-
-  toJSON(): object {
-    return {
-      amount: this.amount == null ? undefined : types.BigInt.toJSON(this.amount),
-      symbol: this.symbol == null ? undefined : types.String.toJSON(this.symbol),
+    constructor(props?: Partial<Omit<XcmToken, 'toJSON'>>, json?: any) {
+        Object.assign(this, props)
+        if (json != null) {
+            this._amount = json.amount == null ? undefined : marshal.bigint.fromJSON(json.amount)
+            this._symbol = json.symbol == null ? undefined : marshal.string.fromJSON(json.symbol)
+        }
     }
-  }
 
-  static fromJSON(json: any): XcmToken {
-    return new XcmToken({
-      amount: types.BigInt.convertToJSValue(json.amount),
-      symbol: types.String.convertToJSValue(json.symbol),
-    })
-  }
+    get amount(): bigint | undefined | null {
+        return this._amount
+    }
+
+    set amount(value: bigint | undefined | null) {
+        this._amount = value
+    }
+
+    get symbol(): string | undefined | null {
+        return this._symbol
+    }
+
+    set symbol(value: string | undefined | null) {
+        this._symbol = value
+    }
+
+    toJSON(): object {
+        return {
+            amount: this.amount == null ? undefined : marshal.bigint.toJSON(this.amount),
+            symbol: this.symbol,
+        }
+    }
 }
