@@ -1,129 +1,145 @@
-import {lookupArchive} from "@subsquid/archive-registry"
-import * as ss58 from "@subsquid/ss58"
-import {BatchContext, BatchProcessorItem, SubstrateBatchProcessor} from "@subsquid/substrate-processor"
-import {Store, TypeormDatabase} from "@subsquid/typeorm-store"
-import {In} from "typeorm"
-import {Account, Transfer} from "./model"
-import {BalancesTransferEvent} from "./types/events"
-
+import { lookupArchive } from "@subsquid/archive-registry";
+import * as ss58 from "@subsquid/ss58";
+import {
+  BatchContext,
+  BatchProcessorItem,
+  SubstrateBatchProcessor,
+  SubstrateEvent,
+} from "@subsquid/substrate-processor";
+import { Store, MikroormDatabase } from "@subsquid/mikroorm-store";
+import { Account, Transfer, XcmDestination, XcmToken } from "./model";
+import {
+  // parseTransferredEvent,
+  // parseTransferredMultiAssetEvent,
+  parseTransferredMultiAssetsEvent,
+  // parseTransferredMultiAssetWithFeeEvent,
+  // parseTransferredMultiCurrenciesEvent,
+  // parseTransferredWithFeeEvent,
+  XcmTransferData,
+} from "./parsers";
 
 const processor = new SubstrateBatchProcessor()
-    .setDataSource({
-        // Lookup archive by the network name in the Subsquid registry
-        //archive: lookupArchive("kusama", {release: "FireSquid"})
+  .setDataSource({
+    archive: lookupArchive("moonbeam", { release: "FireSquid" }),
+    chain: "wss://public-rpc.pinknode.io/moonbeam",
+  })
+  // .addEvent("XTokens.Transferred", {
+  //   data: {
+  //     event: true,
+  //   },
+  // })
+  // .addEvent("XTokens.TransferredWithFee", {
+  //   data: {
+  //     event: true,
+  //   },
+  // })
+  // .addEvent("XTokens.TransferredMultiAsset", {
+  //   data: {
+  //     event: true,
+  //   },
+  // })
+  // .addEvent("XTokens.TransferredMultiAssetWithFee", {
+  //   data: {
+  //     event: true,
+  //   },
+  // })
+  // .addEvent("XTokens.TransferredMultiCurrencies", {
+  //   data: {
+  //     event: true,
+  //   },
+  // })
+  .addEvent("XTokens.TransferredMultiAssets", {
+    data: {
+      event: true,
+    },
+  });
 
-        // Use archive created by archive/docker-compose.yml
-        archive: lookupArchive('kusama', {release: 'FireSquid'} )
-    })
-    .addEvent('Balances.Transfer', {
-        data: {
-            event: {
-                args: true,
-                extrinsic: {
-                    hash: true,
-                    fee: true
-                }
-            }
-        }
-    } as const)
+type Item = BatchProcessorItem<typeof processor>;
+type Ctx = BatchContext<Store, Item>;
 
+processor.run(new MikroormDatabase(), async (ctx) => {
+  let transfersData = await getTransfers(ctx);
 
-type Item = BatchProcessorItem<typeof processor>
-type Ctx = BatchContext<Store, Item>
+  for (let t of transfersData) {
+    ctx.store.defer(Account, t.from);
+  }
 
+  await ctx.store.load();
 
-processor.run(new TypeormDatabase(), async ctx => {
-    let transfersData = getTransfers(ctx)
+  let transfers: Transfer[] = [];
 
-    let accountIds = new Set<string>()
-    for (let t of transfersData) {
-        accountIds.add(t.from)
-        accountIds.add(t.to)
+  for (let t of transfersData) {
+    let { id, blockNumber, timestamp, extrinsicHash, assets, fee, to } = t;
+
+    let from = getAccount(ctx, t.from);
+
+    transfers.push(
+      new Transfer({
+        id,
+        blockNumber,
+        timestamp,
+        extrinsicHash,
+        from: from.id,
+        to: new XcmDestination(to),
+        assets: assets.map((a) => new XcmToken(a)),
+        fee,
+      })
+    );
+  }
+
+  ctx.store.persist(transfers);
+
+  await ctx.store.flush();
+});
+
+async function getTransfers(ctx: Ctx): Promise<XcmTransferData[]> {
+  let transfers: XcmTransferData[] = [];
+  for (let block of ctx.blocks) {
+    for (let item of block.items) {
+      let data: XcmTransferData | undefined;
+      switch (item.name) {
+        // case "XTokens.Transferred":
+        //   data = await parseTransferredEvent(
+        //     ctx,
+        //     block.header,
+        //     item.event as SubstrateEvent
+        //   );
+        //   break;
+        // case 'XTokens.TransferredWithFee':
+        //     data = await parseTransferredWithFeeEvent(ctx, block.header, item.event as SubstrateEvent)
+        //     break
+        // case 'XTokens.TransferredMultiAsset':
+        //     data = await parseTransferredMultiAssetEvent(ctx, block.header, item.event as SubstrateEvent)
+        //     break
+        // case 'XTokens.TransferredMultiAssetWithFee':
+        //     data = await parseTransferredMultiAssetWithFeeEvent(ctx, block.header, item.event as SubstrateEvent)
+        //     break
+        // case 'XTokens.TransferredMultiCurrencies':
+        //     data = await parseTransferredMultiCurrenciesEvent(ctx, block.header, item.event as SubstrateEvent)
+        //     break
+        case "XTokens.TransferredMultiAssets":
+          data = await parseTransferredMultiAssetsEvent(
+            ctx,
+            block.header,
+            item.event as SubstrateEvent
+          );
+          break;
+        default:
+          continue;
+      }
+
+      if (data != null) transfers.push(data);
     }
-
-    let accounts = await ctx.store.findBy(Account, {id: In([...accountIds])}).then(accounts => {
-        return new Map(accounts.map(a => [a.id, a]))
-    })
-
-    let transfers: Transfer[] = []
-
-    for (let t of transfersData) {
-        let {id, blockNumber, timestamp, extrinsicHash, amount, fee} = t
-
-        let from = getAccount(accounts, t.from)
-        let to = getAccount(accounts, t.to)
-
-        transfers.push(new Transfer({
-            id,
-            blockNumber,
-            timestamp,
-            extrinsicHash,
-            from,
-            to,
-            amount,
-            fee
-        }))
-    }
-
-    await ctx.store.save(Array.from(accounts.values()))
-    await ctx.store.insert(transfers)
-})
-
-
-interface TransferEvent {
-    id: string
-    blockNumber: number
-    timestamp: Date
-    extrinsicHash?: string
-    from: string
-    to: string
-    amount: bigint
-    fee?: bigint
+  }
+  return transfers;
 }
 
-
-function getTransfers(ctx: Ctx): TransferEvent[] {
-    let transfers: TransferEvent[] = []
-    for (let block of ctx.blocks) {
-        for (let item of block.items) {
-            if (item.name == "Balances.Transfer") {
-                let e = new BalancesTransferEvent(ctx, item.event)
-                let rec: {from: Uint8Array, to: Uint8Array, amount: bigint}
-                if (e.isV1020) {
-                    let [from, to, amount] = e.asV1020
-                    rec = { from, to, amount}
-                } else if (e.isV1050) {
-                    let [from, to, amount] = e.asV1050
-                    rec = { from, to, amount}
-                } else if (e.isV9130) {
-                    rec = e.asV9130
-                } else {
-                    throw new Error('Unsupported spec')
-                }
-                
-                transfers.push({
-                    id: item.event.id,
-                    blockNumber: block.header.height,
-                    timestamp: new Date(block.header.timestamp),
-                    extrinsicHash: item.event.extrinsic?.hash,
-                    from: ss58.codec('kusama').encode(rec.from),
-                    to: ss58.codec('kusama').encode(rec.to),
-                    amount: rec.amount,
-                    fee: item.event.extrinsic?.fee || 0n
-                })
-            }
-        }
-    }
-    return transfers
-}
-
-
-function getAccount(m: Map<string, Account>, id: string): Account {
-    let acc = m.get(id)
-    if (acc == null) {
-        acc = new Account()
-        acc.id = id
-        m.set(id, acc)
-    }
-    return acc
+function getAccount(ctx: Ctx, id: string): Account {
+  let acc = ctx.store.get(Account, id);
+  if (acc == null) {
+    acc = new Account();
+    acc.id = id;
+    ctx.store.persist(acc);
+  }
+  return acc;
 }

@@ -1,8 +1,7 @@
 type Account @entity {
   "Account address"
   id: ID!
-  transfersTo: [Transfer!] @derivedFrom(field: "to")
-  transfersFrom: [Transfer!] @derivedFrom(field: "from")
+  transfers: [Transfer!] @derivedFrom(field: "from")
 }
 
 type Transfer @entity {
@@ -11,7 +10,17 @@ type Transfer @entity {
   timestamp: DateTime! @index
   extrinsicHash: String @index
   from: Account!
-  to: Account!
-  amount: BigInt! @index
-  fee: BigInt! # fee is calculated at the best effort and may be zero for some old extrinsics
+  to: XcmDestination!
+  assets: [XcmToken]!
+  fee: BigInt!
+}
+
+type XcmDestination {
+  paraId: Int
+  id: String!
+}
+
+type XcmToken {
+  amount: BigInt!
+  symbol: String!
 }

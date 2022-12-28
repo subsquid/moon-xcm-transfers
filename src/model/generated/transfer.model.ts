@@ -1,6 +1,8 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, Index as Index_, ManyToOne as ManyToOne_} from "typeorm"
-import * as marshal from "./marshal"
+import {Entity as Entity_, Property as Property_, PrimaryKey as PrimaryKey_, Index as Index_, ManyToOne as ManyToOne_} from "@mikro-orm/core"
+import {types} from "./support"
 import {Account} from "./account.model"
+import {XcmDestination} from "./_xcmDestination"
+import {XcmToken} from "./_xcmToken"
 
 @Entity_()
 export class Transfer {
@@ -8,33 +10,31 @@ export class Transfer {
     Object.assign(this, props)
   }
 
-  @PrimaryColumn_()
+  @PrimaryKey_()
   id!: string
 
   @Index_()
-  @Column_("int4", {nullable: false})
+  @Property_({type: types.Int, nullable: false})
   blockNumber!: number
 
   @Index_()
-  @Column_("timestamp with time zone", {nullable: false})
+  @Property_({type: types.DateTime, nullable: false})
   timestamp!: Date
 
   @Index_()
-  @Column_("text", {nullable: true})
+  @Property_({type: types.String, nullable: true})
   extrinsicHash!: string | undefined | null
 
   @Index_()
-  @ManyToOne_(() => Account, {nullable: true})
-  from!: Account
+  @ManyToOne_(() => Account, {nullable: false, mapToPk: true})
+  from!: string
 
-  @Index_()
-  @ManyToOne_(() => Account, {nullable: true})
-  to!: Account
+  @Property_({type: types.JSONobj(XcmDestination.fromJSON), nullable: false})
+  to!: XcmDestination
 
-  @Index_()
-  @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
-  amount!: bigint
+  @Property_({type: types.JSONarray(types.JSONobj(XcmToken.fromJSON)), nullable: false})
+  assets!: (XcmToken | undefined | null)[]
 
-  @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
+  @Property_({type: types.BigInt, nullable: false})
   fee!: bigint
 }

@@ -1,11 +1,15 @@
 {
   "outDir": "src/types",
-  "specVersions": "https://kusama.archive.subsquid.io/graphql",
+  "specVersions": "https://moonbeam.archive.subsquid.io/graphql",
   "events": [
-    "Balances.Transfer"
+    "Balances.Transfer",
+    "XTokens.Transferred",
+    "XTokens.TransferredWithFee",
+    "XTokens.TransferredMultiAsset",
+    "XTokens.TransferredMultiAssetWithFee",
+    "XTokens.TransferredMultiCurrencies",
+    "XTokens.TransferredMultiAssets"
   ],
-  "calls": [ 
-  ],
-  "storage": [
-  ]
+  "storage": true,
+  "constants": true
 }

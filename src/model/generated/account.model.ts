@@ -1,5 +1,5 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, OneToMany as OneToMany_} from "typeorm"
-import {Transfer} from "./transfer.model"
+import {Entity as Entity_, Property as Property_, PrimaryKey as PrimaryKey_} from "@mikro-orm/core"
+import {types} from "./support"
 
 @Entity_()
 export class Account {
@@ -10,12 +10,7 @@ export class Account {
   /**
    * Account address
    */
-  @PrimaryColumn_()
+  @PrimaryKey_()
   id!: string
 
-  @OneToMany_(() => Transfer, e => e.to)
-  transfersTo!: Transfer[]
-
-  @OneToMany_(() => Transfer, e => e.from)
-  transfersFrom!: Transfer[]
 }
