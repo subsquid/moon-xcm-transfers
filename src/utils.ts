@@ -7,6 +7,7 @@ import {
 import { BlockContext, Call, ChainContext } from "./types/support";
 import * as ss58 from "@subsquid/ss58";
 import * as v1201 from "./types/v1201";
+import config from "./config";
 
 export function encodeId(id: Uint8Array): string {
   // return ss58.codec("moonbeam").encode(id);
@@ -229,8 +230,6 @@ export type Currency =
       value: bigint;
     };
 
-export type Token = { symbol: string; decimals: number };
-
 type Location = { parents: number; interior: any };
 
 async function getAssetFromLocation(
@@ -263,7 +262,7 @@ async function getAssetFromLocation(
               //     },
               //     "parents": 0
               //   }
-              assetMeta = { name: "GLMR", symbol: "GLMR", decimals: 18 };
+              assetMeta = config.nativeToken;
               break;
             }
             default:
@@ -276,7 +275,7 @@ async function getAssetFromLocation(
     case 1:
       switch (location.interior.__kind) {
         case "Here": {
-          assetMeta = { name: "GLMR", symbol: "GLMR", decimals: 18 };
+          assetMeta = config.nativeToken;
           break;
         }
 

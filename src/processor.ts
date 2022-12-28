@@ -18,10 +18,14 @@ import {
   XcmTransferData,
 } from "./parsers";
 
+import config from "./config";
+
 const processor = new SubstrateBatchProcessor()
   .setDataSource({
-    archive: lookupArchive("moonbeam", { release: "FireSquid" }),
-    chain: "wss://public-rpc.pinknode.io/moonbeam",
+    archive: lookupArchive(config.srcConfig.chainName, {
+      release: "FireSquid",
+    }),
+    chain: config.srcConfig.dataSource.chain,
   })
   // .addEvent("XTokens.Transferred", {
   //   data: {

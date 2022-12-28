@@ -2,7 +2,7 @@ manifestVersion: subsquid.io/v0.1
 name: xcm-transfers-moonbeam
 version: 1
 description: |-
-  The very first squid from manifest  
+  Tracking out-coming XCM transfers in Moonbeam chain
 build:
 
 deploy:

@@ -2,7 +2,8 @@ manifestVersion: subsquid.io/v0.1
 name: xcm-transfers-moonriver
 version: 1
 description: |-
-  The very first squid from manifest  
+  Tracking out-coming XCM transfers in Moonriver chain
+
 build:
 
 deploy:
@@ -11,4 +12,4 @@ deploy:
   processor:
     cmd: [ "node", "lib/processor" ]
   api:
-    cmd: [ "npx", "squid-graphql-server", "--dumb-cache", "in-memory", "--dumb-cache-ttl", "1000", "--dumb-cache-size", "100", "--dumb-cache-max-age", "1000" ]
+    cmd: [ "npx", "squid-graphql-server", "--subscriptions", "--max-root-fields", "10", "--sql-statement-timeout", "1000" ]
