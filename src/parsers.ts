@@ -10,7 +10,7 @@ import {
 import { ChainContext, Event, BlockContext } from './types/support'
 // import * as ss58 from '@subsquid/ss58'
 import { encodeId, getDestination, getToken } from './utils';
-import { Store } from '@subsquid/mikroorm-store'
+import { Store } from '@subsquid/typeorm-store'
 // import assert from 'assert'
 
 export interface XcmTransferData {

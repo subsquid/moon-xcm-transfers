@@ -6,7 +6,7 @@ import {
   SubstrateBatchProcessor,
   SubstrateEvent,
 } from "@subsquid/substrate-processor";
-import { Store, MikroormDatabase } from "@subsquid/mikroorm-store";
+import { Store, TypeormDatabase } from "@subsquid/typeorm-store";
 import { Account, Transfer, XcmDestination, XcmToken } from "./model";
 import {
   // parseTransferredEvent,
@@ -17,6 +17,8 @@ import {
   // parseTransferredWithFeeEvent,
   XcmTransferData,
 } from "./parsers";
+import { In } from 'typeorm'
+
 
 import config from "./config";
 
@@ -61,21 +63,24 @@ const processor = new SubstrateBatchProcessor()
 type Item = BatchProcessorItem<typeof processor>;
 type Ctx = BatchContext<Store, Item>;
 
-processor.run(new MikroormDatabase(), async (ctx) => {
+processor.run(new TypeormDatabase(), async (ctx) => {
   let transfersData = await getTransfers(ctx);
 
+  let accountIds = new Set<string>()
   for (let t of transfersData) {
-    ctx.store.defer(Account, t.from);
+    accountIds.add(t.from)
   }
 
-  await ctx.store.load();
+  let accounts = await ctx.store.findBy(Account, { id: In([...accountIds]) }).then((accounts) => {
+    return new Map(accounts.map((a) => [a.id, a]))
+  })
 
   let transfers: Transfer[] = [];
 
   for (let t of transfersData) {
     let { id, blockNumber, timestamp, extrinsicHash, assets, fee, to } = t;
 
-    let from = getAccount(ctx, t.from);
+    let from = getAccount(accounts, t.from)
 
     transfers.push(
       new Transfer({
@@ -83,7 +88,7 @@ processor.run(new MikroormDatabase(), async (ctx) => {
         blockNumber,
         timestamp,
         extrinsicHash,
-        from: from.id,
+        from: from,
         to: new XcmDestination(to),
         assets: assets.map((a) => new XcmToken(a)),
         fee,
@@ -91,9 +96,8 @@ processor.run(new MikroormDatabase(), async (ctx) => {
     );
   }
 
-  ctx.store.persist(transfers);
-
-  await ctx.store.flush();
+  await ctx.store.save(Array.from(accounts.values()))
+  await ctx.store.insert(transfers)
 });
 
 async function getTransfers(ctx: Ctx): Promise<XcmTransferData[]> {
@@ -138,12 +142,13 @@ async function getTransfers(ctx: Ctx): Promise<XcmTransferData[]> {
   return transfers;
 }
 
-function getAccount(ctx: Ctx, id: string): Account {
-  let acc = ctx.store.get(Account, id);
+function getAccount(m: Map<string, Account>, id: string): Account {
+  let acc = m.get(id)
   if (acc == null) {
-    acc = new Account();
-    acc.id = id;
-    ctx.store.persist(acc);
+    acc = new Account()
+    acc.id = id
+    m.set(id, acc)
   }
-  return acc;
+  return acc
 }
+

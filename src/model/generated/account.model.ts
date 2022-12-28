@@ -1,16 +1,18 @@
-import {Entity as Entity_, Property as Property_, PrimaryKey as PrimaryKey_} from "@mikro-orm/core"
-import {types} from "./support"
+import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, OneToMany as OneToMany_} from "typeorm"
+import {Transfer} from "./transfer.model"
 
 @Entity_()
 export class Account {
-  constructor(props?: Partial<Account>) {
-    Object.assign(this, props)
-  }
+    constructor(props?: Partial<Account>) {
+        Object.assign(this, props)
+    }
 
-  /**
-   * Account address
-   */
-  @PrimaryKey_()
-  id!: string
+    /**
+     * Account address
+     */
+    @PrimaryColumn_()
+    id!: string
 
+    @OneToMany_(() => Transfer, e => e.from)
+    transfers!: Transfer[]
 }

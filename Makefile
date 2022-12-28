@@ -18,11 +18,11 @@ serve:
 
 
 migrate:
-	@npx squid-mikroorm-migration apply
+	@npx squid-typeorm-migration apply
 
 
 codegen:
-	@npx squid-mikroorm-codegen
+	@npx squid-typeorm-codegen
 
 
 typegen:
