@@ -21,6 +21,6 @@ type XcmDestination {
 }
 
 type XcmToken {
-  amount: BigInt!
-  symbol: String!
+  amount: BigInt
+  symbol: String
 }

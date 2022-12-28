@@ -16,7 +16,6 @@ type SourceConfig = {
   dataSource: Parameters<
     SubstrateProcessor<any>["setDataSource"]
   >[HandlerParams.NAME];
-  batchSizeSaveThreshold: number;
 };
 
 interface ProcessorConfig {
@@ -26,16 +25,15 @@ interface ProcessorConfig {
 
 const config: ProcessorConfig = {
   srcConfig: {
-    chainName: "moonbeam",
+    chainName: "moonriver",
     dataSource: {
-      archive: "https://moonbeam.archive.subsquid.io/graphql",
-      chain: "wss://wss.api.moonbeam.network",
+      archive: "https://moonriver.archive.subsquid.io/graphql",
+      chain: "wss://wss.api.moonriver.moonbeam.network",
     },
-    batchSizeSaveThreshold: 3000,
   },
   nativeToken: {
-    name: "GLMR",
-    symbol: "GLMR",
+    name: "MOVR",
+    symbol: "MOVR",
     decimals: 18,
   },
 };

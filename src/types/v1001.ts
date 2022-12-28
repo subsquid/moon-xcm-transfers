@@ -1,6 +1,6 @@
 import type {Result, Option} from './support'
 
-export type Call = Call_System | Call_ParachainSystem | Call_Timestamp | Call_Balances | Call_ParachainStaking | Call_AuthorInherent | Call_AuthorFilter | Call_AuthorMapping | Call_Utility | Call_Proxy | Call_MaintenanceMode | Call_Identity | Call_Sudo | Call_EVM | Call_Ethereum | Call_Scheduler | Call_Democracy | Call_CouncilCollective | Call_TechCommitteeCollective | Call_Treasury | Call_CrowdloanRewards
+export type Call = Call_System | Call_ParachainSystem | Call_Timestamp | Call_Balances | Call_ParachainStaking | Call_AuthorInherent | Call_AuthorFilter | Call_AuthorMapping | Call_Utility | Call_Proxy | Call_MaintenanceMode | Call_Identity | Call_EVM | Call_Ethereum | Call_Scheduler | Call_Democracy | Call_CouncilCollective | Call_TechCommitteeCollective | Call_Treasury | Call_CrowdloanRewards
 
 export interface Call_System {
     __kind: 'System'
@@ -60,11 +60,6 @@ export interface Call_MaintenanceMode {
 export interface Call_Identity {
     __kind: 'Identity'
     value: IdentityCall
-}
-
-export interface Call_Sudo {
-    __kind: 'Sudo'
-    value: SudoCall
 }
 
 export interface Call_EVM {
@@ -538,7 +533,7 @@ export interface ParachainStakingCall_set_staking_expectations {
  */
 export interface ParachainStakingCall_set_inflation {
     __kind: 'set_inflation'
-    schedule: Type_174
+    schedule: Type_173
 }
 
 /**
@@ -1497,82 +1492,6 @@ export interface IdentityCall_remove_sub {
  */
 export interface IdentityCall_quit_sub {
     __kind: 'quit_sub'
-}
-
-/**
- * Contains one variant per dispatchable that can be called by an extrinsic.
- */
-export type SudoCall = SudoCall_sudo | SudoCall_sudo_unchecked_weight | SudoCall_set_key | SudoCall_sudo_as
-
-/**
- * Authenticates the sudo key and dispatches a function call with `Root` origin.
- * 
- * The dispatch origin for this call must be _Signed_.
- * 
- * # <weight>
- * - O(1).
- * - Limited storage reads.
- * - One DB write (event).
- * - Weight of derivative `call` execution + 10,000.
- * # </weight>
- */
-export interface SudoCall_sudo {
-    __kind: 'sudo'
-    call: Call
-}
-
-/**
- * Authenticates the sudo key and dispatches a function call with `Root` origin.
- * This function does not check the weight of the call, and instead allows the
- * Sudo user to specify the weight of the call.
- * 
- * The dispatch origin for this call must be _Signed_.
- * 
- * # <weight>
- * - O(1).
- * - The weight of this call is defined by the caller.
- * # </weight>
- */
-export interface SudoCall_sudo_unchecked_weight {
-    __kind: 'sudo_unchecked_weight'
-    call: Call
-    weight: bigint
-}
-
-/**
- * Authenticates the current sudo key and sets the given AccountId (`new`) as the new sudo
- * key.
- * 
- * The dispatch origin for this call must be _Signed_.
- * 
- * # <weight>
- * - O(1).
- * - Limited storage reads.
- * - One DB change.
- * # </weight>
- */
-export interface SudoCall_set_key {
-    __kind: 'set_key'
-    new: Uint8Array
-}
-
-/**
- * Authenticates the sudo key and dispatches a function call with `Signed` origin from
- * a given account.
- * 
- * The dispatch origin for this call must be _Signed_.
- * 
- * # <weight>
- * - O(1).
- * - Limited storage reads.
- * - One DB write (event).
- * - Weight of derivative `call` execution + 10,000.
- * # </weight>
- */
-export interface SudoCall_sudo_as {
-    __kind: 'sudo_as'
-    who: Uint8Array
-    call: Call
 }
 
 /**
@@ -2737,17 +2656,17 @@ export interface OriginCaller_system {
 
 export interface OriginCaller_Ethereum {
     __kind: 'Ethereum'
-    value: Type_303
+    value: Type_300
 }
 
 export interface OriginCaller_CouncilCollective {
     __kind: 'CouncilCollective'
-    value: Type_304
+    value: Type_301
 }
 
 export interface OriginCaller_TechCommitteeCollective {
     __kind: 'TechCommitteeCollective'
-    value: Type_305
+    value: Type_302
 }
 
 export interface OriginCaller_Void {
@@ -2770,7 +2689,7 @@ export interface Phase_Initialization {
     __kind: 'Initialization'
 }
 
-export type Event = Event_System | Event_ParachainSystem | Event_Balances | Event_ParachainStaking | Event_AuthorFilter | Event_AuthorMapping | Event_Utility | Event_Proxy | Event_MaintenanceMode | Event_Identity | Event_Migrations | Event_Sudo | Event_EVM | Event_Ethereum | Event_Scheduler | Event_Democracy | Event_CouncilCollective | Event_TechCommitteeCollective | Event_Treasury | Event_CrowdloanRewards
+export type Event = Event_System | Event_ParachainSystem | Event_Balances | Event_ParachainStaking | Event_AuthorFilter | Event_AuthorMapping | Event_Utility | Event_Proxy | Event_MaintenanceMode | Event_Identity | Event_Migrations | Event_EVM | Event_Ethereum | Event_Scheduler | Event_Democracy | Event_CouncilCollective | Event_TechCommitteeCollective | Event_Treasury | Event_CrowdloanRewards
 
 export interface Event_System {
     __kind: 'System'
@@ -2825,11 +2744,6 @@ export interface Event_Identity {
 export interface Event_Migrations {
     __kind: 'Migrations'
     value: MigrationsEvent
-}
-
-export interface Event_Sudo {
-    __kind: 'Sudo'
-    value: SudoEvent
 }
 
 export interface Event_EVM {
@@ -2890,7 +2804,7 @@ export interface Range {
     max: bigint
 }
 
-export interface Type_174 {
+export interface Type_173 {
     min: number
     ideal: number
     max: number
@@ -3253,42 +3167,42 @@ export interface RawOrigin_None {
     __kind: 'None'
 }
 
-export type Type_303 = Type_303_EthereumTransaction
+export type Type_300 = Type_300_EthereumTransaction
 
-export interface Type_303_EthereumTransaction {
+export interface Type_300_EthereumTransaction {
     __kind: 'EthereumTransaction'
     value: Uint8Array
 }
 
-export type Type_304 = Type_304_Members | Type_304_Member | Type_304__Phantom
+export type Type_301 = Type_301_Members | Type_301_Member | Type_301__Phantom
 
-export interface Type_304_Members {
+export interface Type_301_Members {
     __kind: 'Members'
     value: [number, number]
 }
 
-export interface Type_304_Member {
+export interface Type_301_Member {
     __kind: 'Member'
     value: Uint8Array
 }
 
-export interface Type_304__Phantom {
+export interface Type_301__Phantom {
     __kind: '_Phantom'
 }
 
-export type Type_305 = Type_305_Members | Type_305_Member | Type_305__Phantom
+export type Type_302 = Type_302_Members | Type_302_Member | Type_302__Phantom
 
-export interface Type_305_Members {
+export interface Type_302_Members {
     __kind: 'Members'
     value: [number, number]
 }
 
-export interface Type_305_Member {
+export interface Type_302_Member {
     __kind: 'Member'
     value: Uint8Array
 }
 
-export interface Type_305__Phantom {
+export interface Type_302__Phantom {
     __kind: '_Phantom'
 }
 
@@ -4028,38 +3942,6 @@ export interface MigrationsEvent_MigrationStarted {
 export interface MigrationsEvent_MigrationCompleted {
     __kind: 'MigrationCompleted'
     value: [Uint8Array, bigint]
-}
-
-/**
- * 
-			The [event](https://docs.substrate.io/v3/runtime/events-and-errors) emitted
-			by this pallet.
-			
- */
-export type SudoEvent = SudoEvent_Sudid | SudoEvent_KeyChanged | SudoEvent_SudoAsDone
-
-/**
- * A sudo just took place. \[result\]
- */
-export interface SudoEvent_Sudid {
-    __kind: 'Sudid'
-    value: Type_45
-}
-
-/**
- * The \[sudoer\] just switched identity; the old key is supplied.
- */
-export interface SudoEvent_KeyChanged {
-    __kind: 'KeyChanged'
-    value: Uint8Array
-}
-
-/**
- * A sudo just took place. \[result\]
- */
-export interface SudoEvent_SudoAsDone {
-    __kind: 'SudoAsDone'
-    value: Type_45
 }
 
 /**

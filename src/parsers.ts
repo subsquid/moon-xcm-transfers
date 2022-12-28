@@ -1,33 +1,38 @@
-import { BatchContext, EventHandlerContext, SubstrateBlock, SubstrateEvent } from '@subsquid/substrate-processor'
 import {
-    // XTokensTransferredEvent,
-    // XTokensTransferredMultiAssetEvent,
-    XTokensTransferredMultiAssetsEvent,
-    // XTokensTransferredMultiAssetWithFeeEvent,
-    // XTokensTransferredMultiCurrenciesEvent,
-    // XTokensTransferredWithFeeEvent,
-} from './types/events'
-import { ChainContext, Event, BlockContext } from './types/support'
+  BatchContext,
+  EventHandlerContext,
+  SubstrateBlock,
+  SubstrateEvent,
+} from "@subsquid/substrate-processor";
+import {
+  // XTokensTransferredEvent,
+  // XTokensTransferredMultiAssetEvent,
+  XTokensTransferredMultiAssetsEvent,
+  // XTokensTransferredMultiAssetWithFeeEvent,
+  // XTokensTransferredMultiCurrenciesEvent,
+  // XTokensTransferredWithFeeEvent,
+} from "./types/events";
+import { ChainContext, Event, BlockContext } from "./types/support";
 // import * as ss58 from '@subsquid/ss58'
-import { encodeId, getDestination, getToken } from './utils';
-import { Store } from '@subsquid/mikroorm-store'
-// import assert from 'assert'
+import { encodeId, getDestination, getToken } from "./utils";
+import { Store } from "@subsquid/mikroorm-store";
+import { XcmToken, XcmDestination } from "./model";
 
 export interface XcmTransferData {
-    id: string
-    blockNumber: number
-    timestamp: Date
-    extrinsicHash?: string
-    from: string
-    to: {
-        paraId?: number
-        id: string
-    }
-    assets: {
-        symbol: string
-        amount: bigint
-    }[]
-    fee?: bigint
+  id: string;
+  blockNumber: number;
+  timestamp: Date;
+  extrinsicHash?: string;
+  from: string;
+  to: {
+    paraId?: number;
+    id: string;
+  };
+  assets: {
+    symbol: string;
+    amount: bigint;
+  }[];
+  fee?: bigint;
 }
 
 // export type TransferredEventData = {
@@ -152,10 +157,10 @@ export interface XcmTransferData {
 // }
 
 export type TransferredMultiAssetEventData = {
-    sender: Uint8Array
-    asset: any
-    dest: any
-}
+  sender: Uint8Array;
+  asset: any;
+  dest: any;
+};
 
 // export function getTransferredMultiAssetEventData(ctx: ChainContext, event: Event): TransferredMultiAssetEventData {
 //     const e = new XTokensTransferredMultiAssetEvent(ctx, event)
@@ -352,54 +357,57 @@ export type TransferredMultiAssetEventData = {
 // }
 
 export function getTransferredMultiAssetsData(ctx: ChainContext, event: Event) {
-    const e = new XTokensTransferredMultiAssetsEvent(ctx, event)
+  const e = new XTokensTransferredMultiAssetsEvent(ctx, event);
 
-    if (e.isV1300 || e.isV1401) {
-        const { sender, assets, dest } = ctx._chain.decodeEvent(event)
-        return {
-            sender,
-            assets: assets.map((a: any) => ({
-                __kind: 'V1',
-                value: a,
-            })),
-            dest: {
-                __kind: 'V1',
-                value: dest,
-            },
-        }
-    } else {
-        throw new Error()
-    }
+  if (e.isV1300 || e.isV1401) {
+    const { sender, assets, dest } = ctx._chain.decodeEvent(event);
+    return {
+      sender,
+      assets: assets.map((a: any) => ({
+        __kind: "V1",
+        value: a,
+      })),
+      dest: {
+        __kind: "V1",
+        value: dest,
+      },
+    };
+  } else {
+    throw new Error();
+  }
 }
 
 export async function parseTransferredMultiAssetsEvent(
-    ctx: BatchContext<Store, unknown>,
-    block: SubstrateBlock,
-    event: SubstrateEvent
+  ctx: BatchContext<Store, unknown>,
+  block: SubstrateBlock,
+  event: SubstrateEvent
 ): Promise<XcmTransferData | undefined> {
-    const data = getTransferredMultiAssetsData(ctx, event)
+  const data = getTransferredMultiAssetsData(ctx, event);
 
-    try {
-        const dest = getDestination(data.dest)
+  try {
+    const dest = getDestination(data.dest);
 
-        const assets: { symbol: string; amount: bigint }[] = []
-        for (const assetData of data.assets) {
-            const token = await getToken({ ...ctx, block }, assetData)
-            assets.push({ symbol: token.symbol, amount: token.amount })
-        }
-
-        return {
-            id: event.id,
-            blockNumber: block.height,
-            timestamp: new Date(block.timestamp),
-            extrinsicHash: event.extrinsic?.hash,
-            from: encodeId(data.sender),
-            to: dest,
-            assets,
-            fee: event.extrinsic?.fee || 0n,
-        }
-    } catch (e: any) {
-        ctx.log.warn({ block: block.height, extrinsic: event.extrinsic?.hash }, e.stack)
-        return undefined
+    const assets: { symbol: string; amount: bigint }[] = [];
+    for (const assetData of data.assets) {
+      const token = await getToken({ ...ctx, block }, assetData);
+      assets.push(token);
     }
+
+    return {
+      id: event.id,
+      blockNumber: block.height,
+      timestamp: new Date(block.timestamp),
+      extrinsicHash: event.extrinsic?.hash,
+      from: encodeId(data.sender),
+      to: dest,
+      assets,
+      fee: event.extrinsic?.fee || 0n,
+    };
+  } catch (e: any) {
+    ctx.log.warn(
+      { block: block.height, extrinsic: event.extrinsic?.hash },
+      e.stack
+    );
+    return undefined;
+  }
 }

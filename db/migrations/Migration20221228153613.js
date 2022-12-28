@@ -2,7 +2,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 const { Migration } = require('@mikro-orm/migrations');
 
-class Migration20221228095725 extends Migration {
+class Migration20221228153613 extends Migration {
 
   async up() {
     this.addSql('create table "account" ("id" varchar(255) not null, constraint "account_pkey" primary key ("id"));');
@@ -25,4 +25,4 @@ class Migration20221228095725 extends Migration {
   }
 
 }
-exports.Migration20221228095725 = Migration20221228095725;
+exports.Migration20221228153613 = Migration20221228153613;

@@ -1,23 +1,5 @@
 import type {Result, Option} from './support'
 
-export interface RegistrationInfo {
-    account: Uint8Array
-    deposit: bigint
-}
-
-export interface AccountData {
-    free: bigint
-    reserved: bigint
-    miscFrozen: bigint
-    feeFrozen: bigint
-}
-
-export interface BalanceLock {
-    id: Uint8Array
-    amount: bigint
-    reasons: Reasons
-}
-
 export interface ReserveData {
     id: Uint8Array
     amount: bigint
@@ -33,7 +15,7 @@ export interface Releases_V2_0_0 {
     __kind: 'V2_0_0'
 }
 
-export type Call = Call_System | Call_ParachainSystem | Call_Timestamp | Call_Balances | Call_ParachainStaking | Call_AuthorInherent | Call_AuthorFilter | Call_AuthorMapping | Call_Utility | Call_Proxy | Call_MaintenanceMode | Call_Identity | Call_Sudo | Call_EVM | Call_Ethereum | Call_Scheduler | Call_Democracy | Call_CouncilCollective | Call_TechCommitteeCollective | Call_Treasury | Call_CrowdloanRewards
+export type Call = Call_System | Call_ParachainSystem | Call_Timestamp | Call_Balances | Call_ParachainStaking | Call_AuthorInherent | Call_AuthorFilter | Call_AuthorMapping | Call_Utility | Call_Proxy | Call_MaintenanceMode | Call_Identity | Call_EVM | Call_Ethereum | Call_Scheduler | Call_Democracy | Call_CouncilCollective | Call_TechCommitteeCollective | Call_Treasury | Call_CrowdloanRewards
 
 export interface Call_System {
     __kind: 'System'
@@ -95,11 +77,6 @@ export interface Call_Identity {
     value: IdentityCall
 }
 
-export interface Call_Sudo {
-    __kind: 'Sudo'
-    value: SudoCall
-}
-
 export interface Call_EVM {
     __kind: 'EVM'
     value: EVMCall
@@ -148,26 +125,6 @@ export interface Votes {
     end: number
 }
 
-export interface RewardInfo {
-    totalReward: bigint
-    claimedReward: bigint
-    contributedRelayAddresses: Uint8Array[]
-}
-
-export type VoteThreshold = VoteThreshold_SuperMajorityApprove | VoteThreshold_SuperMajorityAgainst | VoteThreshold_SimpleMajority
-
-export interface VoteThreshold_SuperMajorityApprove {
-    __kind: 'SuperMajorityApprove'
-}
-
-export interface VoteThreshold_SuperMajorityAgainst {
-    __kind: 'SuperMajorityAgainst'
-}
-
-export interface VoteThreshold_SimpleMajority {
-    __kind: 'SimpleMajority'
-}
-
 export type PreimageStatus = PreimageStatus_Missing | PreimageStatus_Available
 
 export interface PreimageStatus_Missing {
@@ -197,9 +154,9 @@ export interface ReferendumInfo_Finished {
     end: number
 }
 
-export type Type_309 = Type_309_V1
+export type Type_306 = Type_306_V1
 
-export interface Type_309_V1 {
+export interface Type_306_V1 {
     __kind: 'V1'
 }
 
@@ -254,305 +211,11 @@ export interface LegacyTransaction {
     signature: TransactionSignature
 }
 
-export interface Registration {
-    judgements: [number, Judgement][]
-    deposit: bigint
-    info: IdentityInfo
-}
-
-export interface RegistrarInfo {
-    account: Uint8Array
-    fee: bigint
-    fields: bigint
-}
-
-export type Data = Data_None | Data_Raw0 | Data_Raw1 | Data_Raw2 | Data_Raw3 | Data_Raw4 | Data_Raw5 | Data_Raw6 | Data_Raw7 | Data_Raw8 | Data_Raw9 | Data_Raw10 | Data_Raw11 | Data_Raw12 | Data_Raw13 | Data_Raw14 | Data_Raw15 | Data_Raw16 | Data_Raw17 | Data_Raw18 | Data_Raw19 | Data_Raw20 | Data_Raw21 | Data_Raw22 | Data_Raw23 | Data_Raw24 | Data_Raw25 | Data_Raw26 | Data_Raw27 | Data_Raw28 | Data_Raw29 | Data_Raw30 | Data_Raw31 | Data_Raw32 | Data_BlakeTwo256 | Data_Sha256 | Data_Keccak256 | Data_ShaThree256
-
-export interface Data_None {
-    __kind: 'None'
-}
-
-export interface Data_Raw0 {
-    __kind: 'Raw0'
-    value: Uint8Array
-}
-
-export interface Data_Raw1 {
-    __kind: 'Raw1'
-    value: Uint8Array
-}
-
-export interface Data_Raw2 {
-    __kind: 'Raw2'
-    value: Uint8Array
-}
-
-export interface Data_Raw3 {
-    __kind: 'Raw3'
-    value: Uint8Array
-}
-
-export interface Data_Raw4 {
-    __kind: 'Raw4'
-    value: Uint8Array
-}
-
-export interface Data_Raw5 {
-    __kind: 'Raw5'
-    value: Uint8Array
-}
-
-export interface Data_Raw6 {
-    __kind: 'Raw6'
-    value: Uint8Array
-}
-
-export interface Data_Raw7 {
-    __kind: 'Raw7'
-    value: Uint8Array
-}
-
-export interface Data_Raw8 {
-    __kind: 'Raw8'
-    value: Uint8Array
-}
-
-export interface Data_Raw9 {
-    __kind: 'Raw9'
-    value: Uint8Array
-}
-
-export interface Data_Raw10 {
-    __kind: 'Raw10'
-    value: Uint8Array
-}
-
-export interface Data_Raw11 {
-    __kind: 'Raw11'
-    value: Uint8Array
-}
-
-export interface Data_Raw12 {
-    __kind: 'Raw12'
-    value: Uint8Array
-}
-
-export interface Data_Raw13 {
-    __kind: 'Raw13'
-    value: Uint8Array
-}
-
-export interface Data_Raw14 {
-    __kind: 'Raw14'
-    value: Uint8Array
-}
-
-export interface Data_Raw15 {
-    __kind: 'Raw15'
-    value: Uint8Array
-}
-
-export interface Data_Raw16 {
-    __kind: 'Raw16'
-    value: Uint8Array
-}
-
-export interface Data_Raw17 {
-    __kind: 'Raw17'
-    value: Uint8Array
-}
-
-export interface Data_Raw18 {
-    __kind: 'Raw18'
-    value: Uint8Array
-}
-
-export interface Data_Raw19 {
-    __kind: 'Raw19'
-    value: Uint8Array
-}
-
-export interface Data_Raw20 {
-    __kind: 'Raw20'
-    value: Uint8Array
-}
-
-export interface Data_Raw21 {
-    __kind: 'Raw21'
-    value: Uint8Array
-}
-
-export interface Data_Raw22 {
-    __kind: 'Raw22'
-    value: Uint8Array
-}
-
-export interface Data_Raw23 {
-    __kind: 'Raw23'
-    value: Uint8Array
-}
-
-export interface Data_Raw24 {
-    __kind: 'Raw24'
-    value: Uint8Array
-}
-
-export interface Data_Raw25 {
-    __kind: 'Raw25'
-    value: Uint8Array
-}
-
-export interface Data_Raw26 {
-    __kind: 'Raw26'
-    value: Uint8Array
-}
-
-export interface Data_Raw27 {
-    __kind: 'Raw27'
-    value: Uint8Array
-}
-
-export interface Data_Raw28 {
-    __kind: 'Raw28'
-    value: Uint8Array
-}
-
-export interface Data_Raw29 {
-    __kind: 'Raw29'
-    value: Uint8Array
-}
-
-export interface Data_Raw30 {
-    __kind: 'Raw30'
-    value: Uint8Array
-}
-
-export interface Data_Raw31 {
-    __kind: 'Raw31'
-    value: Uint8Array
-}
-
-export interface Data_Raw32 {
-    __kind: 'Raw32'
-    value: Uint8Array
-}
-
-export interface Data_BlakeTwo256 {
-    __kind: 'BlakeTwo256'
-    value: Uint8Array
-}
-
-export interface Data_Sha256 {
-    __kind: 'Sha256'
-    value: Uint8Array
-}
-
-export interface Data_Keccak256 {
-    __kind: 'Keccak256'
-    value: Uint8Array
-}
-
-export interface Data_ShaThree256 {
-    __kind: 'ShaThree256'
-    value: Uint8Array
-}
-
-export interface CollatorSnapshot {
-    bond: bigint
-    nominators: Bond[]
-    total: bigint
-}
-
-export interface Bond {
-    owner: Uint8Array
-    amount: bigint
-}
-
-export interface Collator2 {
-    id: Uint8Array
-    bond: bigint
-    nominators: Uint8Array[]
-    topNominators: Bond[]
-    bottomNominators: Bond[]
-    totalCounted: bigint
-    totalBacking: bigint
-    state: CollatorStatus
-}
-
-export interface ExitQ {
-    candidates: Uint8Array[]
-    nominatorsLeaving: Uint8Array[]
-    candidateSchedule: [Uint8Array, number][]
-    nominatorSchedule: [Uint8Array, (Uint8Array | undefined), number][]
-}
-
-export interface InflationInfo {
-    expect: Range
-    annual: Type_159
-    round: Type_159
-}
-
-export interface Nominator2 {
-    nominations: Bond[]
-    revocations: Uint8Array[]
-    total: bigint
-    scheduledRevocationsCount: number
-    scheduledRevocationsTotal: bigint
-    status: NominatorStatus
-}
-
-export interface ParachainBondConfig {
-    account: Uint8Array
-    percent: number
-}
-
-export interface RoundInfo {
-    current: number
-    first: number
-    length: number
-}
-
-export interface V1AbridgedHostConfiguration {
-    maxCodeSize: number
-    maxHeadDataSize: number
-    maxUpwardQueueCount: number
-    maxUpwardQueueSize: number
-    maxUpwardMessageSize: number
-    maxUpwardMessageNumPerCandidate: number
-    hrmpMaxMessageNumPerCandidate: number
-    validationUpgradeFrequency: number
-    validationUpgradeDelay: number
-}
-
-export interface OutboundHrmpMessage {
-    recipient: number
-    data: Uint8Array
-}
-
 export interface MessagingStateSnapshot {
     dmqMqcHead: Uint8Array
     relayDispatchQueueSize: [number, number]
     ingressChannels: [number, V1AbridgedHrmpChannel][]
     egressChannels: [number, V1AbridgedHrmpChannel][]
-}
-
-export interface V1PersistedValidationData {
-    parentHead: Uint8Array
-    relayParentNumber: number
-    relayParentStorageRoot: Uint8Array
-    maxPovSize: number
-}
-
-export interface Announcement {
-    real: Uint8Array
-    callHash: Uint8Array
-    height: number
-}
-
-export interface ProxyDefinition {
-    delegate: Uint8Array
-    proxyType: ProxyType
-    delay: number
 }
 
 export interface ScheduledV2 {
@@ -563,28 +226,14 @@ export interface ScheduledV2 {
     origin: OriginCaller
 }
 
-export type Type_293 = Type_293_V1 | Type_293_V2
+export type Type_290 = Type_290_V1 | Type_290_V2
 
-export interface Type_293_V1 {
+export interface Type_290_V1 {
     __kind: 'V1'
 }
 
-export interface Type_293_V2 {
+export interface Type_290_V2 {
     __kind: 'V2'
-}
-
-export interface AccountInfo {
-    nonce: number
-    consumers: number
-    providers: number
-    sufficients: number
-    data: AccountData
-}
-
-export interface PerDispatchClass {
-    normal: bigint
-    operational: bigint
-    mandatory: bigint
 }
 
 export interface Digest {
@@ -597,87 +246,14 @@ export interface EventRecord {
     topics: Uint8Array[]
 }
 
-export type Phase = Phase_ApplyExtrinsic | Phase_Finalization | Phase_Initialization
+export type Type_136 = Type_136_V1Ancient | Type_136_V2
 
-export interface Phase_ApplyExtrinsic {
-    __kind: 'ApplyExtrinsic'
-    value: number
-}
-
-export interface Phase_Finalization {
-    __kind: 'Finalization'
-}
-
-export interface Phase_Initialization {
-    __kind: 'Initialization'
-}
-
-export interface LastRuntimeUpgradeInfo {
-    specVersion: number
-    specName: string
-}
-
-export type Type_137 = Type_137_V1Ancient | Type_137_V2
-
-export interface Type_137_V1Ancient {
+export interface Type_136_V1Ancient {
     __kind: 'V1Ancient'
 }
 
-export interface Type_137_V2 {
+export interface Type_136_V2 {
     __kind: 'V2'
-}
-
-export interface Proposal {
-    proposer: Uint8Array
-    value: bigint
-    beneficiary: Uint8Array
-    bond: bigint
-}
-
-export interface BlockLength {
-    max: Type_89
-}
-
-export interface BlockWeights {
-    baseBlock: bigint
-    maxBlock: bigint
-    perClass: Type_85
-}
-
-export interface RuntimeDbWeight {
-    read: bigint
-    write: bigint
-}
-
-export interface RuntimeVersion {
-    specName: string
-    implName: string
-    authoringVersion: number
-    specVersion: number
-    implVersion: number
-    apis: [Uint8Array, number][]
-    transactionVersion: number
-}
-
-export interface WeightToFeeCoefficient {
-    coeffInteger: bigint
-    coeffFrac: number
-    negative: boolean
-    degree: number
-}
-
-export type Reasons = Reasons_Fee | Reasons_Misc | Reasons_All
-
-export interface Reasons_Fee {
-    __kind: 'Fee'
-}
-
-export interface Reasons_Misc {
-    __kind: 'Misc'
-}
-
-export interface Reasons_All {
-    __kind: 'All'
 }
 
 /**
@@ -1069,7 +645,7 @@ export interface ParachainStakingCall_set_staking_expectations {
  */
 export interface ParachainStakingCall_set_inflation {
     __kind: 'set_inflation'
-    schedule: Type_159
+    schedule: Type_158
 }
 
 /**
@@ -1962,82 +1538,6 @@ export interface IdentityCall_remove_sub {
  */
 export interface IdentityCall_quit_sub {
     __kind: 'quit_sub'
-}
-
-/**
- * Contains one variant per dispatchable that can be called by an extrinsic.
- */
-export type SudoCall = SudoCall_sudo | SudoCall_sudo_unchecked_weight | SudoCall_set_key | SudoCall_sudo_as
-
-/**
- * Authenticates the sudo key and dispatches a function call with `Root` origin.
- * 
- * The dispatch origin for this call must be _Signed_.
- * 
- * # <weight>
- * - O(1).
- * - Limited storage reads.
- * - One DB write (event).
- * - Weight of derivative `call` execution + 10,000.
- * # </weight>
- */
-export interface SudoCall_sudo {
-    __kind: 'sudo'
-    call: Call
-}
-
-/**
- * Authenticates the sudo key and dispatches a function call with `Root` origin.
- * This function does not check the weight of the call, and instead allows the
- * Sudo user to specify the weight of the call.
- * 
- * The dispatch origin for this call must be _Signed_.
- * 
- * # <weight>
- * - O(1).
- * - The weight of this call is defined by the caller.
- * # </weight>
- */
-export interface SudoCall_sudo_unchecked_weight {
-    __kind: 'sudo_unchecked_weight'
-    call: Call
-    weight: bigint
-}
-
-/**
- * Authenticates the current sudo key and sets the given AccountId (`new`) as the new sudo
- * key.
- * 
- * The dispatch origin for this call must be _Signed_.
- * 
- * # <weight>
- * - O(1).
- * - Limited storage reads.
- * - One DB change.
- * # </weight>
- */
-export interface SudoCall_set_key {
-    __kind: 'set_key'
-    new: Uint8Array
-}
-
-/**
- * Authenticates the sudo key and dispatches a function call with `Signed` origin from
- * a given account.
- * 
- * The dispatch origin for this call must be _Signed_.
- * 
- * # <weight>
- * - O(1).
- * - Limited storage reads.
- * - One DB write (event).
- * - Weight of derivative `call` execution + 10,000.
- * # </weight>
- */
-export interface SudoCall_sudo_as {
-    __kind: 'sudo_as'
-    who: Uint8Array
-    call: Call
 }
 
 /**
@@ -3249,87 +2749,6 @@ export interface TransactionSignature {
     s: Uint8Array
 }
 
-export type Judgement = Judgement_Unknown | Judgement_FeePaid | Judgement_Reasonable | Judgement_KnownGood | Judgement_OutOfDate | Judgement_LowQuality | Judgement_Erroneous
-
-export interface Judgement_Unknown {
-    __kind: 'Unknown'
-}
-
-export interface Judgement_FeePaid {
-    __kind: 'FeePaid'
-    value: bigint
-}
-
-export interface Judgement_Reasonable {
-    __kind: 'Reasonable'
-}
-
-export interface Judgement_KnownGood {
-    __kind: 'KnownGood'
-}
-
-export interface Judgement_OutOfDate {
-    __kind: 'OutOfDate'
-}
-
-export interface Judgement_LowQuality {
-    __kind: 'LowQuality'
-}
-
-export interface Judgement_Erroneous {
-    __kind: 'Erroneous'
-}
-
-export interface IdentityInfo {
-    additional: [Data, Data][]
-    display: Data
-    legal: Data
-    web: Data
-    riot: Data
-    email: Data
-    pgpFingerprint: (Uint8Array | undefined)
-    image: Data
-    twitter: Data
-}
-
-export type CollatorStatus = CollatorStatus_Active | CollatorStatus_Idle | CollatorStatus_Leaving
-
-export interface CollatorStatus_Active {
-    __kind: 'Active'
-}
-
-export interface CollatorStatus_Idle {
-    __kind: 'Idle'
-}
-
-export interface CollatorStatus_Leaving {
-    __kind: 'Leaving'
-    value: number
-}
-
-export interface Range {
-    min: bigint
-    ideal: bigint
-    max: bigint
-}
-
-export interface Type_159 {
-    min: number
-    ideal: number
-    max: number
-}
-
-export type NominatorStatus = NominatorStatus_Active | NominatorStatus_Leaving
-
-export interface NominatorStatus_Active {
-    __kind: 'Active'
-}
-
-export interface NominatorStatus_Leaving {
-    __kind: 'Leaving'
-    value: number
-}
-
 export interface V1AbridgedHrmpChannel {
     maxCapacity: number
     maxTotalSize: number
@@ -3337,36 +2756,6 @@ export interface V1AbridgedHrmpChannel {
     msgCount: number
     totalSize: number
     mqcHead: (Uint8Array | undefined)
-}
-
-export type ProxyType = ProxyType_Any | ProxyType_NonTransfer | ProxyType_Governance | ProxyType_Staking | ProxyType_CancelProxy | ProxyType_Balances | ProxyType_AuthorMapping
-
-export interface ProxyType_Any {
-    __kind: 'Any'
-}
-
-export interface ProxyType_NonTransfer {
-    __kind: 'NonTransfer'
-}
-
-export interface ProxyType_Governance {
-    __kind: 'Governance'
-}
-
-export interface ProxyType_Staking {
-    __kind: 'Staking'
-}
-
-export interface ProxyType_CancelProxy {
-    __kind: 'CancelProxy'
-}
-
-export interface ProxyType_Balances {
-    __kind: 'Balances'
-}
-
-export interface ProxyType_AuthorMapping {
-    __kind: 'AuthorMapping'
 }
 
 export type OriginCaller = OriginCaller_system | OriginCaller_Ethereum | OriginCaller_CouncilCollective | OriginCaller_TechCommitteeCollective | OriginCaller_Void
@@ -3378,17 +2767,17 @@ export interface OriginCaller_system {
 
 export interface OriginCaller_Ethereum {
     __kind: 'Ethereum'
-    value: Type_289
+    value: Type_286
 }
 
 export interface OriginCaller_CouncilCollective {
     __kind: 'CouncilCollective'
-    value: Type_290
+    value: Type_287
 }
 
 export interface OriginCaller_TechCommitteeCollective {
     __kind: 'TechCommitteeCollective'
-    value: Type_291
+    value: Type_288
 }
 
 export interface OriginCaller_Void {
@@ -3432,7 +2821,22 @@ export interface DigestItem_RuntimeEnvironmentUpdated {
     __kind: 'RuntimeEnvironmentUpdated'
 }
 
-export type Event = Event_System | Event_ParachainSystem | Event_Balances | Event_ParachainStaking | Event_AuthorFilter | Event_AuthorMapping | Event_Utility | Event_Proxy | Event_MaintenanceMode | Event_Identity | Event_Migrations | Event_Sudo | Event_EVM | Event_Ethereum | Event_Scheduler | Event_Democracy | Event_CouncilCollective | Event_TechCommitteeCollective | Event_Treasury | Event_CrowdloanRewards
+export type Phase = Phase_ApplyExtrinsic | Phase_Finalization | Phase_Initialization
+
+export interface Phase_ApplyExtrinsic {
+    __kind: 'ApplyExtrinsic'
+    value: number
+}
+
+export interface Phase_Finalization {
+    __kind: 'Finalization'
+}
+
+export interface Phase_Initialization {
+    __kind: 'Initialization'
+}
+
+export type Event = Event_System | Event_ParachainSystem | Event_Balances | Event_ParachainStaking | Event_AuthorFilter | Event_AuthorMapping | Event_Utility | Event_Proxy | Event_MaintenanceMode | Event_Identity | Event_Migrations | Event_EVM | Event_Ethereum | Event_Scheduler | Event_Democracy | Event_CouncilCollective | Event_TechCommitteeCollective | Event_Treasury | Event_CrowdloanRewards
 
 export interface Event_System {
     __kind: 'System'
@@ -3489,11 +2893,6 @@ export interface Event_Migrations {
     value: MigrationsEvent
 }
 
-export interface Event_Sudo {
-    __kind: 'Sudo'
-    value: SudoEvent
-}
-
 export interface Event_EVM {
     __kind: 'EVM'
     value: EVMEvent
@@ -3534,18 +2933,6 @@ export interface Event_CrowdloanRewards {
     value: CrowdloanRewardsEvent
 }
 
-export interface Type_89 {
-    normal: number
-    operational: number
-    mandatory: number
-}
-
-export interface Type_85 {
-    normal: WeightsPerClass
-    operational: WeightsPerClass
-    mandatory: WeightsPerClass
-}
-
 export interface ChangesTrieConfiguration {
     digestInterval: number
     digestLevels: number
@@ -3556,6 +2943,282 @@ export interface ParachainInherentData {
     relayChainState: StorageProof
     downwardMessages: InboundDownwardMessage[]
     horizontalMessages: [number, InboundHrmpMessage[]][]
+}
+
+export interface Range {
+    min: bigint
+    ideal: bigint
+    max: bigint
+}
+
+export interface Type_158 {
+    min: number
+    ideal: number
+    max: number
+}
+
+export type ProxyType = ProxyType_Any | ProxyType_NonTransfer | ProxyType_Governance | ProxyType_Staking | ProxyType_CancelProxy | ProxyType_Balances | ProxyType_AuthorMapping
+
+export interface ProxyType_Any {
+    __kind: 'Any'
+}
+
+export interface ProxyType_NonTransfer {
+    __kind: 'NonTransfer'
+}
+
+export interface ProxyType_Governance {
+    __kind: 'Governance'
+}
+
+export interface ProxyType_Staking {
+    __kind: 'Staking'
+}
+
+export interface ProxyType_CancelProxy {
+    __kind: 'CancelProxy'
+}
+
+export interface ProxyType_Balances {
+    __kind: 'Balances'
+}
+
+export interface ProxyType_AuthorMapping {
+    __kind: 'AuthorMapping'
+}
+
+export interface IdentityInfo {
+    additional: [Data, Data][]
+    display: Data
+    legal: Data
+    web: Data
+    riot: Data
+    email: Data
+    pgpFingerprint: (Uint8Array | undefined)
+    image: Data
+    twitter: Data
+}
+
+export type Data = Data_None | Data_Raw0 | Data_Raw1 | Data_Raw2 | Data_Raw3 | Data_Raw4 | Data_Raw5 | Data_Raw6 | Data_Raw7 | Data_Raw8 | Data_Raw9 | Data_Raw10 | Data_Raw11 | Data_Raw12 | Data_Raw13 | Data_Raw14 | Data_Raw15 | Data_Raw16 | Data_Raw17 | Data_Raw18 | Data_Raw19 | Data_Raw20 | Data_Raw21 | Data_Raw22 | Data_Raw23 | Data_Raw24 | Data_Raw25 | Data_Raw26 | Data_Raw27 | Data_Raw28 | Data_Raw29 | Data_Raw30 | Data_Raw31 | Data_Raw32 | Data_BlakeTwo256 | Data_Sha256 | Data_Keccak256 | Data_ShaThree256
+
+export interface Data_None {
+    __kind: 'None'
+}
+
+export interface Data_Raw0 {
+    __kind: 'Raw0'
+    value: Uint8Array
+}
+
+export interface Data_Raw1 {
+    __kind: 'Raw1'
+    value: Uint8Array
+}
+
+export interface Data_Raw2 {
+    __kind: 'Raw2'
+    value: Uint8Array
+}
+
+export interface Data_Raw3 {
+    __kind: 'Raw3'
+    value: Uint8Array
+}
+
+export interface Data_Raw4 {
+    __kind: 'Raw4'
+    value: Uint8Array
+}
+
+export interface Data_Raw5 {
+    __kind: 'Raw5'
+    value: Uint8Array
+}
+
+export interface Data_Raw6 {
+    __kind: 'Raw6'
+    value: Uint8Array
+}
+
+export interface Data_Raw7 {
+    __kind: 'Raw7'
+    value: Uint8Array
+}
+
+export interface Data_Raw8 {
+    __kind: 'Raw8'
+    value: Uint8Array
+}
+
+export interface Data_Raw9 {
+    __kind: 'Raw9'
+    value: Uint8Array
+}
+
+export interface Data_Raw10 {
+    __kind: 'Raw10'
+    value: Uint8Array
+}
+
+export interface Data_Raw11 {
+    __kind: 'Raw11'
+    value: Uint8Array
+}
+
+export interface Data_Raw12 {
+    __kind: 'Raw12'
+    value: Uint8Array
+}
+
+export interface Data_Raw13 {
+    __kind: 'Raw13'
+    value: Uint8Array
+}
+
+export interface Data_Raw14 {
+    __kind: 'Raw14'
+    value: Uint8Array
+}
+
+export interface Data_Raw15 {
+    __kind: 'Raw15'
+    value: Uint8Array
+}
+
+export interface Data_Raw16 {
+    __kind: 'Raw16'
+    value: Uint8Array
+}
+
+export interface Data_Raw17 {
+    __kind: 'Raw17'
+    value: Uint8Array
+}
+
+export interface Data_Raw18 {
+    __kind: 'Raw18'
+    value: Uint8Array
+}
+
+export interface Data_Raw19 {
+    __kind: 'Raw19'
+    value: Uint8Array
+}
+
+export interface Data_Raw20 {
+    __kind: 'Raw20'
+    value: Uint8Array
+}
+
+export interface Data_Raw21 {
+    __kind: 'Raw21'
+    value: Uint8Array
+}
+
+export interface Data_Raw22 {
+    __kind: 'Raw22'
+    value: Uint8Array
+}
+
+export interface Data_Raw23 {
+    __kind: 'Raw23'
+    value: Uint8Array
+}
+
+export interface Data_Raw24 {
+    __kind: 'Raw24'
+    value: Uint8Array
+}
+
+export interface Data_Raw25 {
+    __kind: 'Raw25'
+    value: Uint8Array
+}
+
+export interface Data_Raw26 {
+    __kind: 'Raw26'
+    value: Uint8Array
+}
+
+export interface Data_Raw27 {
+    __kind: 'Raw27'
+    value: Uint8Array
+}
+
+export interface Data_Raw28 {
+    __kind: 'Raw28'
+    value: Uint8Array
+}
+
+export interface Data_Raw29 {
+    __kind: 'Raw29'
+    value: Uint8Array
+}
+
+export interface Data_Raw30 {
+    __kind: 'Raw30'
+    value: Uint8Array
+}
+
+export interface Data_Raw31 {
+    __kind: 'Raw31'
+    value: Uint8Array
+}
+
+export interface Data_Raw32 {
+    __kind: 'Raw32'
+    value: Uint8Array
+}
+
+export interface Data_BlakeTwo256 {
+    __kind: 'BlakeTwo256'
+    value: Uint8Array
+}
+
+export interface Data_Sha256 {
+    __kind: 'Sha256'
+    value: Uint8Array
+}
+
+export interface Data_Keccak256 {
+    __kind: 'Keccak256'
+    value: Uint8Array
+}
+
+export interface Data_ShaThree256 {
+    __kind: 'ShaThree256'
+    value: Uint8Array
+}
+
+export type Judgement = Judgement_Unknown | Judgement_FeePaid | Judgement_Reasonable | Judgement_KnownGood | Judgement_OutOfDate | Judgement_LowQuality | Judgement_Erroneous
+
+export interface Judgement_Unknown {
+    __kind: 'Unknown'
+}
+
+export interface Judgement_FeePaid {
+    __kind: 'FeePaid'
+    value: bigint
+}
+
+export interface Judgement_Reasonable {
+    __kind: 'Reasonable'
+}
+
+export interface Judgement_KnownGood {
+    __kind: 'KnownGood'
+}
+
+export interface Judgement_OutOfDate {
+    __kind: 'OutOfDate'
+}
+
+export interface Judgement_LowQuality {
+    __kind: 'LowQuality'
+}
+
+export interface Judgement_Erroneous {
+    __kind: 'Erroneous'
 }
 
 export type MultiSignature = MultiSignature_Ed25519 | MultiSignature_Sr25519 | MultiSignature_Ecdsa
@@ -3573,6 +3236,20 @@ export interface MultiSignature_Sr25519 {
 export interface MultiSignature_Ecdsa {
     __kind: 'Ecdsa'
     value: Uint8Array
+}
+
+export type VoteThreshold = VoteThreshold_SuperMajorityApprove | VoteThreshold_SuperMajorityAgainst | VoteThreshold_SimpleMajority
+
+export interface VoteThreshold_SuperMajorityApprove {
+    __kind: 'SuperMajorityApprove'
+}
+
+export interface VoteThreshold_SuperMajorityAgainst {
+    __kind: 'SuperMajorityAgainst'
+}
+
+export interface VoteThreshold_SimpleMajority {
+    __kind: 'SimpleMajority'
 }
 
 export interface Tally {
@@ -3596,42 +3273,42 @@ export interface RawOrigin_None {
     __kind: 'None'
 }
 
-export type Type_289 = Type_289_EthereumTransaction
+export type Type_286 = Type_286_EthereumTransaction
 
-export interface Type_289_EthereumTransaction {
+export interface Type_286_EthereumTransaction {
     __kind: 'EthereumTransaction'
     value: Uint8Array
 }
 
-export type Type_290 = Type_290_Members | Type_290_Member | Type_290__Phantom
+export type Type_287 = Type_287_Members | Type_287_Member | Type_287__Phantom
 
-export interface Type_290_Members {
+export interface Type_287_Members {
     __kind: 'Members'
     value: [number, number]
 }
 
-export interface Type_290_Member {
+export interface Type_287_Member {
     __kind: 'Member'
     value: Uint8Array
 }
 
-export interface Type_290__Phantom {
+export interface Type_287__Phantom {
     __kind: '_Phantom'
 }
 
-export type Type_291 = Type_291_Members | Type_291_Member | Type_291__Phantom
+export type Type_288 = Type_288_Members | Type_288_Member | Type_288__Phantom
 
-export interface Type_291_Members {
+export interface Type_288_Members {
     __kind: 'Members'
     value: [number, number]
 }
 
-export interface Type_291_Member {
+export interface Type_288_Member {
     __kind: 'Member'
     value: Uint8Array
 }
 
-export interface Type_291__Phantom {
+export interface Type_288__Phantom {
     __kind: '_Phantom'
 }
 
@@ -4293,38 +3970,6 @@ export interface MigrationsEvent_MigrationCompleted {
 			by this pallet.
 			
  */
-export type SudoEvent = SudoEvent_Sudid | SudoEvent_KeyChanged | SudoEvent_SudoAsDone
-
-/**
- * A sudo just took place. \[result\]
- */
-export interface SudoEvent_Sudid {
-    __kind: 'Sudid'
-    value: Type_43
-}
-
-/**
- * The \[sudoer\] just switched identity; the old key is supplied.
- */
-export interface SudoEvent_KeyChanged {
-    __kind: 'KeyChanged'
-    value: Uint8Array
-}
-
-/**
- * A sudo just took place. \[result\]
- */
-export interface SudoEvent_SudoAsDone {
-    __kind: 'SudoAsDone'
-    value: Type_43
-}
-
-/**
- * 
-			The [event](https://substrate.dev/docs/en/knowledgebase/runtime/events) emitted
-			by this pallet.
-			
- */
 export type EVMEvent = EVMEvent_Log | EVMEvent_Created | EVMEvent_CreatedFailed | EVMEvent_Executed | EVMEvent_ExecutedFailed | EVMEvent_BalanceDeposit | EVMEvent_BalanceWithdraw
 
 /**
@@ -4845,11 +4490,11 @@ export interface CrowdloanRewardsEvent_InitializedAccountWithNotEnoughContributi
     value: [Uint8Array, (Uint8Array | undefined), bigint]
 }
 
-export interface WeightsPerClass {
-    baseExtrinsic: bigint
-    maxExtrinsic: (bigint | undefined)
-    maxTotal: (bigint | undefined)
-    reserved: (bigint | undefined)
+export interface V1PersistedValidationData {
+    parentHead: Uint8Array
+    relayParentNumber: number
+    relayParentStorageRoot: Uint8Array
+    maxPovSize: number
 }
 
 export interface StorageProof {

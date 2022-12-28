@@ -67,7 +67,7 @@ function getAccountId(value: any): string {
        *   }
        * }
        */
-      throw new Error()
+      throw new Error();
     case "GeneralKey":
       /**
        * query MyQuery {
@@ -103,7 +103,7 @@ function getAccountId(value: any): string {
        */
       // TODO Add implementation for this case
       // return Buffer.from(value.value).readUintBE(0, 2).toString();
-      return '0x0000000000000000000000000000000000000000000000007369626c00000000'
+      return "0x0000000000000000000000000000000000000000000000007369626c00000000";
     default:
       throw new Error(`Unsupported account id variant: ${value.__kind}`);
   }
@@ -135,9 +135,9 @@ async function getAssetMetadatasStorageData(
   const storage = new AssetsMetadataStorage(ctx);
   if (!storage.isExists) return undefined;
 
-  if (storage.isV1201) {
+  if (storage.isV1101) {
     if (typeof key.value !== "bigint") return undefined;
-    return await storage.asV1201.get(key.value);
+    return await storage.asV1101.get(key.value);
   } else {
     throw new Error();
   }
@@ -204,7 +204,6 @@ async function getAssetMetadatasByAssetTypeStorageData(
   assetType: v1201.AssetType
 ): Promise<AssetMetadata | undefined> {
   const currencyId = await getAssetIdByAssetTypeStorageData(ctx, assetType);
-
   if (!currencyId) return undefined;
 
   return await getAssetMetadatas(ctx, {
@@ -269,6 +268,8 @@ async function getAssetFromLocation(
               throw new Error();
           }
           break;
+        default:
+          throw new Error(`Unsupported location parents: 0 - ${location.interior.value.__kind}`);
       }
       break;
 
@@ -307,6 +308,12 @@ async function getAssetFromLocation(
         case "X2": {
           switch (location.interior.value[0].__kind) {
             case "Parachain": {
+              /**
+               * INFO:
+               * In Moonriver - multilocation with Parachain + PalletInstance
+               * cannot be processed by storage call "AssetManagerAssetTypeIdStorage"
+               * and returns "undefined"
+               */
               const paraId = location.interior.value[0].value;
 
               if (
@@ -386,8 +393,12 @@ async function getAssetFromLocation(
           }
           break;
         }
+        default:
+          throw new Error(`Unsupported location with parents: 1 - ${location.interior.value.__kind}`);
       }
       break;
+    default:
+      throw new Error(`Unsupported location.parents - ${location.parents}`);
   }
 
   assert(assetMeta);
